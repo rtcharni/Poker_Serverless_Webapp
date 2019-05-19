@@ -1,8 +1,8 @@
 export interface User {
-    username: string;
-    password: string;
-    money: number;
-    statistics: UserStatistics;
+    username?: string;
+    password?: string;
+    money?: number;
+    statistics?: UserStatistics;
 }
 
 export interface UserStatistics {
