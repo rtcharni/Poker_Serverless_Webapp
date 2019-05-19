@@ -1,19 +1,12 @@
 import bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-export const hashPassword = (password: string, cb: Function) => {
-  bcrypt.hash(password, saltRounds, (err: Error, hash: string) => {
-    if (err) {
-      return err; //TODO handleerror
-    } else {
-      cb(hash);
-    }
-  });
+export const hashPassword = async (password: string) => {
+  const hashed: string = await bcrypt.hash(password, saltRounds);
+  return hashed;
 }
 
-export const checkIsPasswordValid = (password: string, hashedPassword: string, cb: Function) => {
-  bcrypt.compare(password, hashedPassword, (err: Error, same: boolean) => {
-    if (err) return err; //TODO handleerror
-    else cb(same);
-  })
+export const checkIsPasswordValid = async (password: string, hashedPassword: string) => {
+  const same: boolean = await bcrypt.compare(password, hashedPassword);
+  return same;
 }
