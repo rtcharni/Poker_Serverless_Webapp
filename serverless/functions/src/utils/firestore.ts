@@ -24,6 +24,12 @@ export const deleteUserDataDB = async (username: string) => {
     return userDoc;
 }
 
+export const resetUserDataDB = async (username: string) => {
+    const emptyUser: User = { money: 50, statistics: { biggest_win: 0, wins: 0, loses: 0, draws: 0, money_record: 0, total_games: 0 } }
+    const userDoc = await DB.collection('users').doc(username).update(emptyUser);
+    return userDoc;
+}
+
 export const getStatisticsDataDB = async () => {
     const statisticsDoc = await DB.collection('toplists').doc('toplist').get();
     return statisticsDoc.data();
@@ -35,7 +41,7 @@ export const updateStatisticsDataDB = async (user: User) => {
     const wins = `${user.username}.wins`;
     const biggest_win = `${user.username}.biggest_win`;
     updateObj[money] = user.money;
-    updateObj[wins] = user.statistics.wins; 
+    updateObj[wins] = user.statistics.wins;
     updateObj[biggest_win] = user.statistics.biggest_win;
     const statisticsDoc = await DB.collection('toplists').doc('toplist').update(updateObj);
     return statisticsDoc;
