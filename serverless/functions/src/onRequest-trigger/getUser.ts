@@ -8,7 +8,7 @@ export const getUser = functions.https.onRequest(async (request, response) => {
         const {username, password} = request.query;
         const foundUser: User = await getUserDataDB(username);
         if (foundUser) {
-            if (await checkIsPasswordValid(password, <string>foundUser.password)) {
+            if (await checkIsPasswordValid(password, foundUser.password)) {
                 response.status(200).send({ user: foundUser, success: true });
             }
         }
