@@ -14,6 +14,6 @@ export const getUser = functions.https.onRequest(async (request, response) => {
         }
         response.send({ msg: `Invalid username or password..`, success: false });
     } catch (error) {
-        response.status(500).send({});
+        response.status(500).send({ msg: `Server error...`, success: false});
     }
 });

@@ -5,6 +5,7 @@ import { addUserToDB } from '../utils/firestore';
 
 export const createUser = functions.https.onRequest(async (request, response) => {
     try {
+        // TODO - if username exists abort
         const { username, password } = request.body;
         const hashed = await hashPassword(password);
         const user: User = { money: 50, username, password: hashed, statistics: { biggest_win: 0, wins: 0, loses: 0, draws: 0, money_record: 0, total_games: 0 } }
