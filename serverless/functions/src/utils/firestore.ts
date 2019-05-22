@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin';
 import { User } from '../models/user';
+import { ToplistUser } from '../models/toplist';
 
 const DB = admin.firestore();
 
@@ -44,5 +45,10 @@ export const updateStatisticsDataDB = async (user: User) => {
     updateObj[wins] = user.statistics.wins;
     updateObj[biggest_win] = user.statistics.biggest_win;
     const statisticsDoc = await DB.collection('toplists').doc('toplist').update(updateObj);
+    return statisticsDoc;
+}
+
+export const updateStatisticsDataDB2 = async (toplistUser: ToplistUser) => {
+    const statisticsDoc = await DB.collection('toplists').doc('toplist').update(toplistUser);
     return statisticsDoc;
 }
