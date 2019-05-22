@@ -3,7 +3,7 @@ export interface ToplistUser {
 }
 
 export interface UserStats {
-    biggest_win: number;
-    money: number;
-    wins: number;
+    biggest_win?: number;
+    money?: number;
+    wins?: number;
 }

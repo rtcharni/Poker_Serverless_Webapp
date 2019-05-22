@@ -4,7 +4,8 @@ import * as admin from 'firebase-admin';
 // admin.initializeApp();
 admin.initializeApp(functions.config().firebase);
 
-export * from './onRequest-trigger/getUser';
-export * from './onRequest-trigger/createUser';
-export * from './onRequest-trigger/updateUser';
+export * from './onRequest/getUser';
+export * from './onRequest/createUser';
+export * from './onRequest/updateUser';
+export * from './onFirestoreChange/onFirestoreWrite';
 
