@@ -1,25 +1,30 @@
 import * as functions from 'firebase-functions';
-import { getStatisticsDataDB, updateStatisticsDataDB2 } from '../utils/firestore';
+import { getStatisticsDataDB, updateUserStatisticsDataDB } from '../utils/firestore';
 import { ToplistUser } from '../models/toplist';
 
 export const onFirestoreWrite = functions.firestore.document('users/{username}').onWrite(async (change, context) => {
     try {
-        // Get an object with the current document value.
         // If the document does not exist, it has been deleted.
-        const userDoc = change.after.exists ? change.after.data() : null; // if deleted do something
+        const userDoc = change.after.exists ? change.after.data() : null;
+        if (!userDoc) return Promise.resolve();
 
-        // read toplist document -> find right user and his records
         const statistics = await getStatisticsDataDB();
-
         const toplistUser: ToplistUser = {};
         let needsToUpdate = false;
         let newUserCreated = true;
-
-        Object.entries((statistics).forEach(([username, userStatistics]) => {
+        // Loop documents and compare statistics
+        Object.entries(statistics).forEach(([username, userStatistics]) => {
             if (userDoc && userDoc.username === username) {
                 newUserCreated = false;
                 toplistUser[username] = {};
                 Object.entries(userStatistics).forEach(([recordName, recordValue]) => {
+                    if (recordName === 'money') {
+                        if (userDoc['money'] !== recordValue) {
+                            toplistUser[username]['money'] = userDoc['money']; 
+                            needsToUpdate = true
+                        } 
+                    }
+
                     if (userDoc.statistics[recordName] > recordValue) {
                         toplistUser[username][recordName] = userDoc.statistics[recordName];
                         needsToUpdate = true;
@@ -28,20 +33,17 @@ export const onFirestoreWrite = functions.firestore.document('users/{username}')
                     }
                 })
             }
-        }))
+        })
         // if new document has better records then update better records to fetched toplist document
         if (needsToUpdate) {
-            const writeResult = await updateStatisticsDataDB2(toplistUser);
+            await updateUserStatisticsDataDB(toplistUser);
         } else if (newUserCreated) {
             const newToplistUser: ToplistUser = {}
-            newToplistUser[userDoc.username] = {biggest_win: 0, wins: 0, money: 0};
-            const writeResult = await updateStatisticsDataDB2(newToplistUser);
+            newToplistUser[userDoc.username] = { biggest_win: 0, wins: 0, money: 50, money_record: 0 };
+            await updateUserStatisticsDataDB(newToplistUser);
         }
-
-        return;
-
     } catch (error) {
-        // What to do if error?
+        console.error(error);
     }
 
 })
