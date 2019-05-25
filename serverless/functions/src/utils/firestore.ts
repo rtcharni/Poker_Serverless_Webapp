@@ -36,19 +36,7 @@ export const getStatisticsDataDB = async () => {
     return statisticsDoc.data();
 }
 
-export const updateStatisticsDataDB = async (user: User) => {
-    const updateObj: any = {}
-    const money = `${user.username}.money`;
-    const wins = `${user.username}.wins`;
-    const biggest_win = `${user.username}.biggest_win`;
-    updateObj[money] = user.money;
-    updateObj[wins] = user.statistics.wins;
-    updateObj[biggest_win] = user.statistics.biggest_win;
-    const statisticsDoc = await DB.collection('toplists').doc('toplist').update(updateObj);
-    return statisticsDoc;
-}
-
-export const updateStatisticsDataDB2 = async (toplistUser: ToplistUser) => {
-    const statisticsDoc = await DB.collection('toplists').doc('toplist').update(toplistUser);
+export const updateUserStatisticsDataDB = async (toplistUser: ToplistUser) => {
+    const statisticsDoc = await DB.collection('toplists').doc('toplist').set(toplistUser, {merge: true});
     return statisticsDoc;
 }
