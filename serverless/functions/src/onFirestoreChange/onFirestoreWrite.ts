@@ -42,6 +42,8 @@ export const onFirestoreWrite = functions.firestore.document('users/{username}')
             newToplistUser[userDoc.username] = { biggest_win: 0, wins: 0, money: 50, money_record: 0 };
             await updateUserStatisticsDataDB(newToplistUser);
         }
+        
+        return;
     } catch (error) {
         console.error(error);
     }
