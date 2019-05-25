@@ -14,7 +14,7 @@ export const updateUser = functions.https.onRequest(async (request, response) =>
         }
         const token: string = bearerHeader.split(' ')[1];
         try {
-            const verifiedToken = jwt.verify(token, functions.config().poker.apikey);
+            jwt.verify(token, functions.config().poker.apikey);
         } catch (tokenError) {
             // Token expired or wrong token in headers REDIRECT TO LOGIN AGAIN!?
             response.status(403).send({ msg: `No auth`, success: false })
