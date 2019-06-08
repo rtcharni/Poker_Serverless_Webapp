@@ -2,28 +2,39 @@
   <div>
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
-
         <span>Online Poker</span>
-        <span class="font-weight-light"> - can you be the best player?!</span>
+        <span class="font-weight-light">- can you be the best player?!</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-       <v-btn flat>
-        <router-link to="/login">Login</router-link>
-      </v-btn>
-      <v-btn flat>
-        <router-link to="/signup">Signup</router-link>
-      </v-btn>
+      <v-btn flat to="/login">Login</v-btn>
+      <v-btn flat to="/signup">Signup</v-btn>
     </v-toolbar>
+
+    <v-img
+      src="https://picjumbo.com/wp-content/uploads/playing-cards_free_stock_photos_picjumbo_DSC07167-2210x1473.jpg"
+      max-height="700"
+    >
+    <v-layout
+      align-center
+      column
+      justify-center
+    >
+      
+      <LoginForm></LoginForm>
+    </v-layout>
+    </v-img>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-// import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import LoginForm from '../components/LoginForm.vue';
 
 export default Vue.extend({
   name: "login",
-  components: {},
+  components: {
+    LoginForm,
+  },
   data: () => ({}),
   methods: {}
 });

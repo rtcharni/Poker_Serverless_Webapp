@@ -7,11 +7,11 @@
         <span class="font-weight-light"> - can you be the best player?!</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-       <v-btn flat>
-        <router-link to="/login">Login</router-link>
+       <v-btn flat to="/login">
+        Login
       </v-btn>
-      <v-btn flat>
-        <router-link to="/signup">Signup</router-link>
+      <v-btn flat to="/signup">
+        Signup
       </v-btn>
     </v-toolbar>
   </div>
