@@ -5,6 +5,9 @@
       :timeout="timeout"
       :color="color"
       :top="true"
+      :absolute="true"
+      :auto-height="true"
+    class=""
     >
       {{ text }}
       <!-- <v-btn color="pink" flat @click="snackbar = false">Close</v-btn> -->
