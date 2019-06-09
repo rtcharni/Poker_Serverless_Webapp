@@ -14,17 +14,31 @@
         Signup
       </v-btn>
     </v-toolbar>
+    <v-img
+      src="https://picjumbo.com/wp-content/uploads/playing-cards_free_stock_photos_picjumbo_DSC07167-2210x1473.jpg"
+      max-height="700"
+    >
+    <v-layout
+      align-center
+      column
+      justify-center
+    >
+      
+      <SignupForm></SignupForm>
+      <v-btn color="primary" small depressed to="/signup">Already have account? Login here!</v-btn>
+    </v-layout>
+    </v-img>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-// import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import SignupForm from '../components/SignupForm.vue';
 
 export default Vue.extend({
   name: 'signup',
   components: {
-    
+    SignupForm
   },
   data: () => ({
 
