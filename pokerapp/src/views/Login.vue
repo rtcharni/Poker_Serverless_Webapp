@@ -21,7 +21,7 @@
     >
       
       <LoginForm></LoginForm>
-      <v-btn color="primary" small depressed to="/signup">Signup up here!</v-btn>
+      <v-btn color="primary" small depressed to="/signup">Signup here!</v-btn>
     </v-layout>
     </v-img>
   </div>

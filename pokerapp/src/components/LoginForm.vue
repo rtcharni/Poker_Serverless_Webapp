@@ -1,11 +1,9 @@
 <template>
   <div>
-    <h1 class="display-2 font-weight-thin mb-3 mt-5">Vuetify.js</h1>
-    <h4 class="subheading">Build your application today!</h4>
     <v-card light>
       <v-card-title primary-title>
         <div>
-          <h3 class="headline mb-0">Login</h3>
+          <h3 class="display-2 font-weight-thin mb-3 mt-5">Login</h3>
         </div>
       </v-card-title>
       <v-card-text>
