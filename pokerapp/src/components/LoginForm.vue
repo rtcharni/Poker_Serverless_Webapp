@@ -1,32 +1,36 @@
 <template>
   <div>
-    <v-card light>
-      <v-card-title primary-title>
-        <div>
-          <h3 class="display-2 font-weight-thin mb-3 mt-5">Login</h3>
-        </div>
-      </v-card-title>
-      <v-card-text>
-        <v-form ref="loginform" v-model="valid" lazy-validation>
-          <v-text-field
-            v-model="username"
-            :counter="10"
-            :rules="usernameRules"
-            label="Username"
-            required
-          ></v-text-field>
+    <v-container fluid fill-height>
+      <v-layout align-center justify-center>
+        <v-card light>
+          <v-card-title primary-title>
+            <div>
+              <h3 class="display-2 font-font-font-weight-medium mt-2">Login</h3>
+            </div>
+          </v-card-title>
+          <v-card-text>
+            <v-form ref="loginform" v-model="valid" lazy-validation>
+              <v-text-field
+                v-model="username"
+                :counter="10"
+                :rules="usernameRules"
+                label="Username"
+                required
+              ></v-text-field>
 
-          <v-text-field v-model="password" :rules="passwordRules" label="Password" required></v-text-field>
+              <v-text-field v-model="password" :rules="passwordRules" label="Password" required></v-text-field>
 
-          <v-btn :disabled="!valid" color="success" @click="handleLoginClick">Login</v-btn>
+              <v-btn :disabled="!valid" color="success" @click="handleLoginClick">Login</v-btn>
 
-          <v-btn flat color="error" @click="handleResetClick">Clear</v-btn>
-        </v-form>
-      </v-card-text>
+              <v-btn flat color="error" @click="handleResetClick">Clear</v-btn>
+            </v-form>
+          </v-card-text>
 
-      <!-- <v-card-actions> -->
-      <!-- </v-card-actions> -->
-    </v-card>
+          <!-- <v-card-actions> -->
+          <!-- </v-card-actions> -->
+        </v-card>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 
@@ -53,7 +57,7 @@ export default Vue.extend({
   methods: {
     handleLoginClick() {
       if (this.$refs.loginform.validate()) {
-        console.log("VALIDATE");
+        console.log(this);
         //   this.snackbar = true
       }
     },

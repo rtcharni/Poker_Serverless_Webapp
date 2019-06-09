@@ -1,14 +1,6 @@
 <template>
   <div>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Online Poker</span>
-        <span class="font-weight-light">- can you be the best player?!</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn flat to="/login">Login</v-btn>
-      <v-btn flat to="/signup">Signup</v-btn>
-    </v-toolbar>
+    <Navbar></Navbar>
 
     <v-img
       src="https://picjumbo.com/wp-content/uploads/playing-cards_free_stock_photos_picjumbo_DSC07167-2210x1473.jpg"
@@ -30,11 +22,14 @@
 <script lang="ts">
 import Vue from "vue";
 import LoginForm from '../components/LoginForm.vue';
+import Navbar from '../components/Navbar.vue';
+
 
 export default Vue.extend({
   name: "login",
   components: {
     LoginForm,
+    Navbar
   },
   data: () => ({}),
   methods: {}
