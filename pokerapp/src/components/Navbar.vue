@@ -6,6 +6,7 @@
         <span class="font-weight-light">- can you be the best player?!</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-btn class="mr-4" flat to="/about">About</v-btn>
       <v-btn flat to="/login">Login</v-btn>
       <v-btn flat to="/signup">Signup</v-btn>
     </v-toolbar>
