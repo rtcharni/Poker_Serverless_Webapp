@@ -55,10 +55,17 @@ export default Vue.extend({
     ]
   }),
   methods: {
-    handleLoginClick() {
+    async handleLoginClick() {
       if (this.$refs.loginform.validate()) {
         console.log(this);
-        //   this.snackbar = true
+        const user = await (await fetch('GetUserURL')).json();
+        if (user) {
+          this.$router.push({ name: 'game', params: { user } })
+        } else {
+            this.showAndHideSnackbar();
+          // User doesnt exist
+            return;
+        }
       }
     },
     handleResetClick() {

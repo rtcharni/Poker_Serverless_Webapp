@@ -3,7 +3,7 @@
     <v-toolbar >
       <v-toolbar-title class="headline text-uppercase">
         <span>Online Poker</span>
-        <span class="font-weight-light">- can you be the best player?!</span>
+        <span class="font-weight-light"> - can you be the best player?</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn class="mr-4" flat to="/about">About</v-btn>

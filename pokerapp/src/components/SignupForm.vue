@@ -74,8 +74,13 @@ export default Vue.extend({
         const user = await (await fetch('GetUserURL')).json();
         if (!user) {
             // Create user, send api call, ok message -> redirect..
-            const headers: HeadersInit = {set: ('Content-Type','Application/json') }
-            const success = await fetch('CreateUser',{method: "POST", headers: {set: {'Content-Type':'Application/json'}}})
+            let headers: Headers;
+            headers.set('Content-Type','Application/json');
+            const success = await fetch('CreateUserURL',{method: "POST", headers: headers});
+            // If ok redirect
+            if (success) {
+              this.$router.push({ name: 'login' })
+            }
         } else {
             this.showAndHideSnackbar();
             return;
