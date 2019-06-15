@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
 import Login from './views/Login';
 import Signup from './views/Signup';
 
@@ -13,7 +12,6 @@ import Signup from './views/Signup';
 export default {
   name: 'App',
   components: {
-    HelloWorld,
     Signup,
     Login
   },

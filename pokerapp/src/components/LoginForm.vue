@@ -58,13 +58,16 @@ export default Vue.extend({
     async handleLoginClick() {
       if (this.$refs.loginform.validate()) {
         console.log(this);
-        const user = await (await fetch('GetUserURL')).json();
+        const user = await (await fetch("GetUserURL")).json();
         if (user) {
-          this.$router.push({ name: 'game', params: { user } })
+          this.$router.push({
+            name: "game",
+            params: { user: "user", loggedIn: true }
+          });
         } else {
-            this.showAndHideSnackbar();
-          // User doesnt exist
-            return;
+          // this.showAndHideSnackbar();
+          // User doesnt exist DO something show snackbar maybe!
+          return;
         }
       }
     },
