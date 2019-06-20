@@ -45,25 +45,23 @@ export default Vue.extend({
     valid: false,
     username: "",
     usernameRules: [
-      v => !!v || "Username is required",
-      v => (v && v.length >= 3) || "Username must be at least 3 characters"
+      (v: string) => !!v || "Username is required",
+      (v: string) => (v && v.length >= 3) || "Username must be at least 3 characters"
     ],
     password: "",
     passwordRules: [
-      v => !!v || "Password is required",
-      v => (v && v.length >= 6) || "Name must be at least 6 characters"
+      (v: string) => !!v || "Password is required",
+      (v: string) => (v && v.length >= 6) || "Name must be at least 6 characters"
     ]
   }),
   methods: {
     async handleLoginClick() {
-      if (this.$refs.loginform.validate()) {
+      if ((<any>this.$refs.loginform).validate()) {
         console.log(this);
         const user = await (await fetch("GetUserURL")).json();
         if (user) {
-          this.$router.push({
-            name: "game",
-            params: { user: "user", loggedIn: true }
-          });
+          // change to real User in Prod!
+          this.$router.push({name: 'game', params: { user: 'user', loggedIn: 'true' }})
         } else {
           // this.showAndHideSnackbar();
           // User doesnt exist DO something show snackbar maybe!
@@ -72,7 +70,7 @@ export default Vue.extend({
       }
     },
     handleResetClick() {
-      this.$refs.loginform.reset();
+      (<any>this.$refs.loginform).reset();
     }
   }
 });

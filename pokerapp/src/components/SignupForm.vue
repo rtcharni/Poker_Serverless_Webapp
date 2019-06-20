@@ -58,37 +58,42 @@ export default Vue.extend({
     valid: false,
     username: "",
     usernameRules: [
-      v => !!v || "Username is required",
-      v => (v && v.length >= 3) || "Username must be at least 3 characters"
+      (v: string) => !!v || "Username is required",
+      (v: string) =>
+        (v && v.length >= 3) || "Username must be at least 3 characters"
     ],
     password: "",
     passwordRules: [
-      v => !!v || "Password is required",
-      v => (v && v.length >= 6) || "Name must be at least 6 characters"
+      (v: string) => !!v || "Password is required",
+      (v: string) =>
+        (v && v.length >= 6) || "Name must be at least 6 characters"
     ]
   }),
   methods: {
     async handleSignupClick() {
-      if (this.$refs.loginform.validate()) {
+      if ((<any>this.$refs.loginform).validate()) {
         console.log(this);
-        const user = await (await fetch('GetUserURL')).json();
+        const user = await (await fetch("GetUserURL")).json();
         if (!user) {
-            // Create user, send api call, ok message -> redirect..
-            let headers: Headers;
-            headers.set('Content-Type','Application/json');
-            const success = await fetch('CreateUserURL',{method: "POST", headers: headers});
-            // If ok redirect
-            if (success) {
-              this.$router.push({ name: 'login' })
-            }
+          // Create user, send api call, ok message -> redirect..
+          let headers: Headers = new Headers();
+          headers.set("Content-Type", "Application/json");
+          const success = await fetch("CreateUserURL", {
+            method: "POST",
+            headers: headers
+          });
+          // If ok redirect
+          if (success) {
+            this.$router.push({ name: "login" });
+          }
         } else {
-            this.showAndHideSnackbar();
-            return;
+          this.showAndHideSnackbar();
+          return;
         }
       }
     },
     handleResetClick() {
-      this.$refs.loginform.reset();
+      (<any>this.$refs.loginform).reset();
     },
     showAndHideSnackbar() {
       this.snackbar = true;

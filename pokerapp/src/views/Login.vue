@@ -3,7 +3,7 @@
     <Navbar></Navbar>
 
     <v-img
-      src="https://picjumbo.com/wp-content/uploads/playing-cards_free_stock_photos_picjumbo_DSC07167-2210x1473.jpg"
+      v-bind:src="require('../assets/playing-cards_free_background_image_2210x1473.jpg')"
       max-height="700"
     >
     <v-layout
