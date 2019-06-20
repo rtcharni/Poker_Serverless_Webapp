@@ -26,6 +26,13 @@
             </v-form>
           </v-card-text>
 
+          <Snackbar
+            id="snackbar"
+            v-bind:snackbar="snackbar"
+            v-bind:timeout="0"
+            v-bind:text="'Wrong username or password...'"
+            v-bind:color="'error'"
+          />
           <!-- <v-card-actions> -->
           <!-- </v-card-actions> -->
         </v-card>
@@ -36,22 +43,25 @@
 
 <script lang="ts">
 import Vue from "vue";
-// import Vuetify from 'vuetify'
+import Snackbar from "./Snackbar.vue";
 
 export default Vue.extend({
   name: "loginform",
   components: {},
   data: () => ({
+    snackbar: false,
     valid: false,
     username: "",
     usernameRules: [
       (v: string) => !!v || "Username is required",
-      (v: string) => (v && v.length >= 3) || "Username must be at least 3 characters"
+      (v: string) =>
+        (v && v.length >= 3) || "Username must be at least 3 characters"
     ],
     password: "",
     passwordRules: [
       (v: string) => !!v || "Password is required",
-      (v: string) => (v && v.length >= 6) || "Name must be at least 6 characters"
+      (v: string) =>
+        (v && v.length >= 6) || "Name must be at least 6 characters"
     ]
   }),
   methods: {
@@ -61,9 +71,12 @@ export default Vue.extend({
         const user = await (await fetch("GetUserURL")).json();
         if (user) {
           // change to real User in Prod!
-          this.$router.push({name: 'game', params: { user: 'user', loggedIn: 'true' }})
+          this.$router.push({
+            name: "game",
+            params: { user: "user", loggedIn: "true" }
+          });
         } else {
-          // this.showAndHideSnackbar();
+          this.showAndHideSnackbar();
           // User doesnt exist DO something show snackbar maybe!
           return;
         }
@@ -71,6 +84,12 @@ export default Vue.extend({
     },
     handleResetClick() {
       (<any>this.$refs.loginform).reset();
+    },
+    showAndHideSnackbar() {
+      this.snackbar = true;
+      setTimeout(() => {
+        this.snackbar = false;
+      }, 4000);
     }
   }
 });
