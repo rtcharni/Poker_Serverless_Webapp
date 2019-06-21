@@ -14,9 +14,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      // name: 'home',
-      // component: Home,
-      redirect: '/login',
+      redirect: '/game', // In prod /login
     },
     {
       path: '/about',
@@ -40,11 +38,12 @@ const router = new Router({
     },
   ],
 });
-router.beforeEach((to, from, next) => {
-  if (to.name === 'game' && !to.params.user) {
-    next({name: 'login', replace: true});
-  }
-  next();
-});
+// IN PROD!
+// router.beforeEach((to, from, next) => {
+//   if (to.name === 'game' && !to.params.user) {
+//     next({name: 'login', replace: true});
+//   }
+//   next();
+// });
 
 export default router;
