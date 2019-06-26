@@ -3,23 +3,23 @@ import { Card } from '@/models/interfaces';
 export function checkHandForWins(cards: Card[]) { 
   // From best to worst
   if (fiveOfaKind(cards)) {
-    
+    console.log('five Of a Kind');
   } else if (straightFlush(cards)) {
-
+    console.log('straight flush');
   } else if (fourOfaKind(cards)) {
-    
+    console.log('four of a kind');
   } else if (fullHouse(cards)) {
-    
+    console.log('fullhouse');
   } else if (flush(cards)) {
-    
+    console.log('flush');
   } else if (straight(cards)) {
-    
+    console.log('straight');
   } else if (threeOfaKind(cards)) {
-    
+    console.log('three of a kind');
   } else if (twoPair(cards)) {
-    
+    console.log('two pair');
   } else if (onePair(cards)) {
-    
+    console.log('One pair');
   }
 }
 

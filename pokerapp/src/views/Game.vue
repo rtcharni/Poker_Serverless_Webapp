@@ -37,9 +37,13 @@
 import Vue from "vue";
 import { cards } from "../gameplay/Deck";
 import { Deck } from '../gameplay/Deck';
+import { checkHandForWins } from '../gameplay/WinningTable';
 
-const a = new Deck();
-// console.log(a.take5CardsFromDeck())
+
+// const a = new Deck();
+// const b = a.take5CardsFromDeck()
+// console.log(b)
+// checkHandForWins(b);
 
 export default Vue.extend({
   name: "game",
