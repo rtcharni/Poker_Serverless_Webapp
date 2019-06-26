@@ -2,6 +2,7 @@ export interface Card {
     suit: Suit;
     value: Value;
     name: string;
+    img?: any;
 }
 
 export enum Suit {

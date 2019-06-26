@@ -1,12 +1,12 @@
 import { Card, Value, Suit } from '@/models/interfaces';
 
 export const cards = [
-  { ace: require('../assets/cards/Ace_of_clubs.svg.png') },
-  { clubs10: require('../assets/cards/10_of_clubs.svg.png') },
+  { ace: require('../assets/cards/1_of_Clubs.svg.png') },
+  { clubs10: require('../assets/cards/10_of_Clubs.svg.png') },
 ];
 // init class card deck with functions
 export class Deck {
-  public deck: Card[]
+  public deck: Card[];
   // To constructor with jokers?
   constructor() {
     this.deck = this.constructDeck();
@@ -31,12 +31,16 @@ export class Deck {
     const deck: Card[] = [];
     for (let i = 1; i < 5; i++) {
       for (let j = 1; j < 14; j++) {
-        deck.push({ suit: i, value: j, name: `${Value[j]} of ${Suit[i]}` });
+        deck.push({
+          suit: i,
+          value: j,
+          name: `${Value[j]} of ${Suit[i]}`,
+          img: require(`../assets/cards/${j}_of_${Suit[i]}.svg.png`),
+        });
         // Change all card picture names to match for loops
-        const a = {a: require(`../assets/cards/10_of_clubs.svg.png`)}
-        console.log(a);
       }
     }
+    console.log(deck);
     // Add jokers if needed
     return deck;
   }
@@ -44,7 +48,3 @@ export class Deck {
 // remove one random card from deck
 
 // when new game make new deck instanse
-
-
-
-
