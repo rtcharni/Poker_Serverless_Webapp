@@ -1,34 +1,58 @@
 <template>
-  <div>
-    <v-container>
-      <v-layout row>
-        <v-img class="card" v-bind:src="clubs10" height="auto" width="60"></v-img>
+  <div class="container">
+    <!-- <v-container> -->
+    <!-- <v-layout row> -->
+    <div v-if="!loading" class="row">
+      <div class="col">
+        <v-img class="card" v-bind:src="cards[0].img" height="auto" width="150"></v-img>
+        <v-btn @click="lockCard" round outline color="indigo" value="0" class>Lock</v-btn>
+      </div>
+      <div class="col">
         <v-img
           class="card"
-          v-bind:src="require('../assets/cards/3_of_Diamonds.svg.png')"
+          v-bind:src="cards[1].img"
           height="auto"
-          width="60"
+          width="150"
         ></v-img>
+        <v-btn @click="lockCard" round outline color="indigo" value="1">Lock</v-btn>
+      </div>
+      <div class="col">
         <v-img
           class="card"
-          v-bind:src="require('../assets/cards/5_of_Hearts.svg.png')"
+          v-bind:src="cards[2].img"
           height="auto"
-          width="60"
+          width="150"
         ></v-img>
+        <v-btn @click="lockCard" round outline color="indigo" value="2">Lock</v-btn>
+      </div>
+      <div class="col">
         <v-img
           class="card"
-          v-bind:src="require('../assets/cards/7_of_Spades.svg.png')"
+          v-bind:src="cards[3].img"
           height="auto"
-          width="60"
+          width="150"
         ></v-img>
+        <v-btn @click="lockCard" round outline color="indigo" value="3">Lock</v-btn>
+      </div>
+      <div class="col">
         <v-img
           class="card"
-          v-bind:src="require('../assets/cards/1_of_Clubs.svg.png')"
+          v-bind:src="cards[4].img"
           height="auto"
-          width="60"
+          width="150"
         ></v-img>
-      </v-layout>
-    </v-container>
+        <v-btn @click="lockCard" round outline color="indigo" value="4">Lock</v-btn>
+      </div>
+
+      <!-- </v-layout>
+      </v-container>-->
+      <!-- <div class="row">
+        <v-btn round outline color="indigo">Lock</v-btn>
+        <v-btn round outline color="indigo">Lock</v-btn>
+        <v-btn round outline color="indigo">Lock</v-btn>
+        <v-btn round outline color="indigo">Lock</v-btn>
+      </div>-->
+    </div>
     <button @click="changecard" type="button">PRESS</button>
   </div>
 </template>
@@ -36,9 +60,9 @@
 <script lang="ts">
 import Vue from "vue";
 import { cards } from "../gameplay/Deck";
-import { Deck } from '../gameplay/Deck';
-import { checkHandForWins } from '../gameplay/WinningTable';
-
+import { Deck } from "../gameplay/Deck";
+import { checkHandForWins } from "../gameplay/WinningTable";
+import { Card } from "../models/interfaces";
 
 // const a = new Deck();
 // const b = a.take5CardsFromDeck()
@@ -49,13 +73,39 @@ export default Vue.extend({
   name: "game",
   components: {},
   data: () => ({
+    loading: true,
+    deck: new Deck(),
+    cards: [] as Card[],
+    lockedCards: [] as Number[],
+    card0: Object as () => Card,
+    card1: Object as () => Card,
+    card2: Object as () => Card,
+    card3: Object as () => Card,
+    card4: Object as () => Card,
+
     clubs10: require("../assets/cards/10_of_Clubs.svg.png"),
     ace: cards[0].ace
   }),
   methods: {
     changecard() {
-      this.clubs10 = this.ace;
+      this.cards = this.deck.take5CardsFromDeck().map(card => card);
+    },
+    lockCard(event:any) {
+      // console.log(event)
+      const number: number = event.target.value ? parseInt(event.target.value) : parseInt(event.target.parentElement.value);
+      if (this.lockedCards.indexOf(number) === -1) {
+        this.lockedCards.push(number)
+      } else {
+        this.lockedCards = this.lockedCards.filter(x => x !== number);
+      }
+      console.log(this.lockedCards)
     }
+  },
+  created() {
+    console.log("created!");
+    this.cards = this.deck.take5CardsFromDeck().map(card => card);
+    this.loading = false;
+    
   }
 });
 </script>
