@@ -53,7 +53,7 @@
         <v-btn round outline color="indigo">Lock</v-btn>
       </div>-->
     </div>
-    <button @click="changecard" type="button">PRESS</button>
+    <v-btn @click="dealChangeCards" color="indigo">Deal!</v-btn>
   </div>
 </template>
 
@@ -87,9 +87,9 @@ export default Vue.extend({
     ace: cards[0].ace
   }),
   methods: {
-    changecard() {
-      this.cards = this.deck.take5CardsFromDeck().map(card => card);
-    },
+    // changecard() {
+    //   this.cards = this.deck.take5CardsFromDeck().map(card => card);
+    // },
     lockCard(event:any) {
       // console.log(event)
       const number: number = event.target.value ? parseInt(event.target.value) : parseInt(event.target.parentElement.value);
@@ -99,6 +99,14 @@ export default Vue.extend({
         this.lockedCards = this.lockedCards.filter(x => x !== number);
       }
       console.log(this.lockedCards)
+    },
+    dealChangeCards() {
+      this.cards.forEach((card, i) => {
+        if (this.lockedCards.indexOf(i) === -1) {
+          console.log('in if!');
+          this.cards[i] = this.deck.takeCardFromDeck();
+        }
+      });
     }
   },
   created() {
