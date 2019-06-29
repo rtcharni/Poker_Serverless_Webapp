@@ -1,26 +1,29 @@
 import { Card } from '@/models/interfaces';
 
-export function checkHandForWins(cards: Card[]) {
+export function checkHandForWins(cards: Card[]): number {
   // From best to worst
-  if (fiveOfaKind(cards)) {
-    console.log('five Of a Kind');
+  if (royalFlush(cards)) {
+    return 50;
+  } else if (fiveOfaKind(cards)) {
+    return 30;
   } else if (straightFlush(cards)) {
-    console.log('straight flush');
+    return 20;
   } else if (fourOfaKind(cards)) {
-    console.log('four of a kind');
+    return 15;
   } else if (fullHouse(cards)) {
-    console.log('fullhouse');
+    return 10;
   } else if (flush(cards)) {
-    console.log('flush');
+    return 7;
   } else if (straight(cards)) {
-    console.log('straight');
+    return 6;
   } else if (threeOfaKind(cards)) {
-    console.log('three of a kind');
+    return 3;
   } else if (twoPair(cards)) {
-    console.log('two pair');
+    return 2;
   } else if (onePair(cards)) {
-    console.log('One pair');
+    return 1;
   }
+  return null;
 }
 
 function onePair(cards: Card[]) {
@@ -189,6 +192,16 @@ function fullHouse(cards: Card[]) {
 
 function straightFlush(cards: Card[]) {
   if (flush(cards) && straight(cards)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function royalFlush(cards: Card[]) {
+  const cardsSorted = cards.sort((a, b) => (a.value < b.value ? -1 : 1));
+
+  if (flush(cardsSorted) && straight(cardsSorted) && cardsSorted[0].value === 1 && cardsSorted[4].value === 13) {
     return true;
   } else {
     return false;

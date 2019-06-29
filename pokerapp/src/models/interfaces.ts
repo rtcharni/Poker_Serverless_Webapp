@@ -13,7 +13,7 @@ export enum Suit {
 }
 
 export enum Value {
-    Ace = 1 || 14,
+    Ace = 1,
     Two = 2,
     Three = 3,
     Four = 4,
