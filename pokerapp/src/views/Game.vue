@@ -73,7 +73,19 @@
       <!-- <v-input label="Place bet" append-icon="close" prepend-icon="phone">lol</v-input> -->
       <v-text-field v-model="bet" class="betInput" prefix="$" type="number" label="Place bet" solo></v-text-field>
     </div>
-    <v-btn @click="dealChangeCards" color="indigo" class="dealBtn">{{dealBtn.text}}</v-btn>
+    <v-btn
+      @click="isGameOn ? dealChangeCards() : dealNewCards()"
+      color="indigo"
+      class="dealBtn"
+    >{{isGameOn ? 'Change cards' : 'Deal'}}</v-btn>
+
+    <Snackbar
+      id="snackbar"
+      v-bind:snackbar="snackbar"
+      v-bind:timeout="0"
+      v-bind:text="'No enough money...'"
+      v-bind:color="'error'"
+    />
   </div>
 </template>
 
@@ -83,11 +95,13 @@ import { Deck } from "../gameplay/Deck";
 import { checkHandForWins } from "../gameplay/WinningTable";
 import { Card } from "../models/interfaces";
 import { Player, createMockPlayer } from "../gameplay/Player";
+import Snackbar from "../components/Snackbar.vue";
 
 export default Vue.extend({
   name: "game",
-  components: {},
+  components: {Snackbar},
   data: () => ({
+    snackbar: false,
     bet: 0,
     dealBtn: {
       text: "Deal"
@@ -118,29 +132,37 @@ export default Vue.extend({
       this.cards = this.cards.map((card, i) =>
         this.lockedCards.indexOf(i) === -1 ? this.deck.takeCardFromDeck() : card
       );
-      this.dealBtn.text =
-        this.dealBtn.text === "Deal" ? "Change cards" : "Deal";
-      if (this.isGameOn) {
-        this.lockedCards = [];
-        const possibleWinMultiplier = checkHandForWins([...this.cards]);
-        if (possibleWinMultiplier) {
-          //continue
-        }
-        this.deck = new Deck();
+      this.lockedCards = [];
+      // Hand won
+      const possibleWinMultiplier: number = checkHandForWins([...this.cards]);
+      if (possibleWinMultiplier) {
+        this.player.payWinning(possibleWinMultiplier);
+        // console.log('bet: ' + this.bet + '. Multiplier: ' + possibleWinMultiplier + '. WINNING: ' + this.bet * possibleWinMultiplier);
+        console.log(this.player);
       }
-      this.isGameOn = this.isGameOn ? false : true;
+      this.deck = new Deck();
+      this.isGameOn = false;
+      // console.log(this.player);
     },
     dealNewCards() {
+      if (this.bet > this.player.money) {
+        this.showAndHideSnackbar();
+        return;
+      }
+      this.isGameOn = true;
+      this.player.currentBet = parseInt(this.bet);
       this.cards = this.deck.take5CardsFromDeck();
+    },
+    showAndHideSnackbar() {
+      this.snackbar = true;
+      setTimeout(() => {
+        this.snackbar = false;
+      }, 3000);
     }
   },
   created() {
-    console.log("created!");
     this.cards = this.deck.getCardBack(5);
     this.player = createMockPlayer();
-    // COntinue here, next place bet and init game!!
-    // console.log(this.player);
-    // this.cards = this.deck.take5CardsFromDeck();
     this.loading = false;
   }
 });
@@ -153,7 +175,7 @@ export default Vue.extend({
 .lockedBtn {
   background-color: rgb(0, 110, 255) !important;
 }
-.betInput{
+.betInput {
   max-width: 10%;
 }
 </style>
