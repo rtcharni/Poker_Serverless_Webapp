@@ -1,10 +1,5 @@
 import { Card, Value, Suit } from '@/models/interfaces';
 
-export const cards = [
-  { ace: require('../assets/cards/1_of_Clubs.svg.png') },
-  { clubs10: require('../assets/cards/10_of_Clubs.svg.png') },
-];
-// init class card deck with functions
 export class Deck {
   public deck: Card[];
   // To constructor with jokers?
@@ -25,6 +20,14 @@ export class Deck {
       cardsArr.push(this.takeCardFromDeck());
     }
     return cardsArr;
+  }
+
+  public getCardBack(howMany: number): Card[] {
+    const backCards: Card[] = [];
+    for (let i = 0; i < howMany; i++) {
+      backCards.push({ img: require(`../assets/cards/Card_back.svg.png`) });
+    }
+    return backCards;
   }
 
   private constructDeck(): Card[] {

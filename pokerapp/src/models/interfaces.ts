@@ -1,7 +1,7 @@
 export interface Card {
-    suit: Suit;
-    value: Value;
-    name: string;
+    suit?: Suit;
+    value?: Value;
+    name?: string;
     img?: any;
 }
 
