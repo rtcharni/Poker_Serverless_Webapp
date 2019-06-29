@@ -5,43 +5,59 @@
     <div v-if="!loading" class="row">
       <div class="col">
         <v-img class="card" v-bind:src="cards[0].img" height="auto" width="150"></v-img>
-        <v-btn @click="lockCard" round outline color="indigo" value="0" class>Lock</v-btn>
+        <v-btn
+          v-bind:class="{lockedBtn: lockedCards.indexOf(0) !== -1}"
+          @click="lockCard"
+          round
+          outline
+          color="indigo"
+          value="0"
+          class
+        >{{lockedCards.indexOf(0) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
       </div>
       <div class="col">
-        <v-img
-          class="card"
-          v-bind:src="cards[1].img"
-          height="auto"
-          width="150"
-        ></v-img>
-        <v-btn @click="lockCard" round outline color="indigo" value="1">Lock</v-btn>
+        <v-img class="card" v-bind:src="cards[1].img" height="auto" width="150"></v-img>
+        <v-btn
+          v-bind:class="{lockedBtn: lockedCards.indexOf(1) !== -1}"
+          @click="lockCard"
+          round
+          outline
+          color="indigo"
+          value="1"
+        >{{lockedCards.indexOf(1) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
       </div>
       <div class="col">
-        <v-img
-          class="card"
-          v-bind:src="cards[2].img"
-          height="auto"
-          width="150"
-        ></v-img>
-        <v-btn @click="lockCard" round outline color="indigo" value="2">Lock</v-btn>
+        <v-img class="card" v-bind:src="cards[2].img" height="auto" width="150"></v-img>
+        <v-btn
+          v-bind:class="{lockedBtn: lockedCards.indexOf(2) !== -1}"
+          @click="lockCard"
+          round
+          outline
+          color="indigo"
+          value="2"
+        >{{lockedCards.indexOf(2) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
       </div>
       <div class="col">
-        <v-img
-          class="card"
-          v-bind:src="cards[3].img"
-          height="auto"
-          width="150"
-        ></v-img>
-        <v-btn @click="lockCard" round outline color="indigo" value="3">Lock</v-btn>
+        <v-img class="card" v-bind:src="cards[3].img" height="auto" width="150"></v-img>
+        <v-btn
+          v-bind:class="{lockedBtn: lockedCards.indexOf(3) !== -1}"
+          @click="lockCard"
+          round
+          outline
+          color="indigo"
+          value="3"
+        >{{lockedCards.indexOf(3) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
       </div>
       <div class="col">
-        <v-img
-          class="card"
-          v-bind:src="cards[4].img"
-          height="auto"
-          width="150"
-        ></v-img>
-        <v-btn @click="lockCard" round outline color="indigo" value="4">Lock</v-btn>
+        <v-img class="card" v-bind:src="cards[4].img" height="auto" width="150"></v-img>
+        <v-btn
+          v-bind:class="{lockedBtn: lockedCards.indexOf(4) !== -1}"
+          @click="lockCard"
+          round
+          outline
+          color="indigo"
+          value="4"
+        >{{lockedCards.indexOf(4) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
       </div>
 
       <!-- </v-layout>
@@ -53,66 +69,76 @@
         <v-btn round outline color="indigo">Lock</v-btn>
       </div>-->
     </div>
-    <v-btn @click="dealChangeCards" color="indigo">Deal!</v-btn>
+    <v-btn @click="dealChangeCards" color="indigo" class="dealBtn">{{dealBtn.text}}</v-btn>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { cards } from "../gameplay/Deck";
 import { Deck } from "../gameplay/Deck";
 import { checkHandForWins } from "../gameplay/WinningTable";
 import { Card } from "../models/interfaces";
-
-// const a = new Deck();
-// const b = a.take5CardsFromDeck()
-// console.log(b)
-// checkHandForWins(b);
 
 export default Vue.extend({
   name: "game",
   components: {},
   data: () => ({
+    dealBtn: {
+      text: "Deal"
+    },
     loading: true,
+    isGameOn: false,
     deck: new Deck(),
     cards: [] as Card[],
-    lockedCards: [] as Number[],
-    card0: Object as () => Card,
-    card1: Object as () => Card,
-    card2: Object as () => Card,
-    card3: Object as () => Card,
-    card4: Object as () => Card,
-
-    clubs10: require("../assets/cards/10_of_Clubs.svg.png"),
-    ace: cards[0].ace
+    lockedCards: [] as Number[]
   }),
   methods: {
-    // dealChangeCards() {
-    //   this.cards = this.deck.take5CardsFromDeck().map(card => card);
-    // },
-    lockCard(event:any) {
+    lockCard(event: any) {
+      if (!this.isGameOn) {
+        return;
+      }
       // console.log(event)
-      const number: number = event.target.value ? parseInt(event.target.value) : parseInt(event.target.parentElement.value);
+      const number: number = event.target.value
+        ? parseInt(event.target.value)
+        : parseInt(event.target.parentElement.value);
       if (this.lockedCards.indexOf(number) === -1) {
-        this.lockedCards.push(number)
+        this.lockedCards.push(number);
       } else {
         this.lockedCards = this.lockedCards.filter(x => x !== number);
       }
-      console.log(this.lockedCards)
     },
     dealChangeCards() {
-      this.cards = this.cards.map((card, i) => this.lockedCards.indexOf(i) === -1 ? this.deck.takeCardFromDeck() : card);
+      this.cards = this.cards.map((card, i) =>
+        this.lockedCards.indexOf(i) === -1 ? this.deck.takeCardFromDeck() : card
+      );
+      this.dealBtn.text =
+        this.dealBtn.text === "Deal" ? "Change cards" : "Deal";
+      if (this.isGameOn) {
+        this.lockedCards = [];
+        checkHandForWins([...this.cards]);
+        this.deck = new Deck();
+      }
+      this.isGameOn = this.isGameOn ? false : true;
+    },
+    dealNewCards() {
+      this.cards = this.deck.take5CardsFromDeck();
     }
   },
   created() {
     console.log("created!");
-    this.cards = this.deck.take5CardsFromDeck().map(card => card);
+    this.cards = this.deck.getCardBack(5);
+    // this.cards = this.deck.take5CardsFromDeck();
     this.loading = false;
-    
-  }
+  },
 });
 </script>
 
 <style scoped>
+.dealBtn {
+  width: 10%;
+}
+.lockedBtn {
+  background-color: rgb(0, 110, 255) !important;
+}
 </style>
 
