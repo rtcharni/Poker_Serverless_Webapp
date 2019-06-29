@@ -69,6 +69,10 @@
         <v-btn round outline color="indigo">Lock</v-btn>
       </div>-->
     </div>
+    <div>
+      <!-- <v-input label="Place bet" append-icon="close" prepend-icon="phone">lol</v-input> -->
+      <v-text-field v-model="bet" class="betInput" prefix="$" type="number" label="Place bet" solo></v-text-field>
+    </div>
     <v-btn @click="dealChangeCards" color="indigo" class="dealBtn">{{dealBtn.text}}</v-btn>
   </div>
 </template>
@@ -78,11 +82,13 @@ import Vue from "vue";
 import { Deck } from "../gameplay/Deck";
 import { checkHandForWins } from "../gameplay/WinningTable";
 import { Card } from "../models/interfaces";
+import { Player, createMockPlayer } from "../gameplay/Player";
 
 export default Vue.extend({
   name: "game",
   components: {},
   data: () => ({
+    bet: 0,
     dealBtn: {
       text: "Deal"
     },
@@ -90,7 +96,8 @@ export default Vue.extend({
     isGameOn: false,
     deck: new Deck(),
     cards: [] as Card[],
-    lockedCards: [] as Number[]
+    lockedCards: [] as Number[],
+    player: Object() as Player
   }),
   methods: {
     lockCard(event: any) {
@@ -115,7 +122,10 @@ export default Vue.extend({
         this.dealBtn.text === "Deal" ? "Change cards" : "Deal";
       if (this.isGameOn) {
         this.lockedCards = [];
-        checkHandForWins([...this.cards]);
+        const possibleWinMultiplier = checkHandForWins([...this.cards]);
+        if (possibleWinMultiplier) {
+          //continue
+        }
         this.deck = new Deck();
       }
       this.isGameOn = this.isGameOn ? false : true;
@@ -127,9 +137,12 @@ export default Vue.extend({
   created() {
     console.log("created!");
     this.cards = this.deck.getCardBack(5);
+    this.player = createMockPlayer();
+    // COntinue here, next place bet and init game!!
+    // console.log(this.player);
     // this.cards = this.deck.take5CardsFromDeck();
     this.loading = false;
-  },
+  }
 });
 </script>
 
@@ -139,6 +152,9 @@ export default Vue.extend({
 }
 .lockedBtn {
   background-color: rgb(0, 110, 255) !important;
+}
+.betInput{
+  max-width: 10%;
 }
 </style>
 
