@@ -1,6 +1,6 @@
 import { Card } from '@/models/interfaces';
 
-export function checkHandForWins(cards: Card[]) { 
+export function checkHandForWins(cards: Card[]) {
   // From best to worst
   if (fiveOfaKind(cards)) {
     console.log('five Of a Kind');
@@ -166,7 +166,7 @@ function straight(cards: Card[]) {
 
 function flush(cards: Card[]) {
   const firstCard = cards[0];
-  if (cards.every(x => x.suit === firstCard.suit)) {
+  if (cards.every((x) => x.suit === firstCard.suit)) {
     return true;
   } else {
     return false;
