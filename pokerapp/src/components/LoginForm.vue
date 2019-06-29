@@ -47,7 +47,7 @@ import Snackbar from "./Snackbar.vue";
 
 export default Vue.extend({
   name: "loginform",
-  components: {},
+  components: {Snackbar},
   data: () => ({
     snackbar: false,
     valid: false,

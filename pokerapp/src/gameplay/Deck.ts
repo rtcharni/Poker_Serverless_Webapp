@@ -40,14 +40,9 @@ export class Deck {
           name: `${Value[j]} of ${Suit[i]}`,
           img: require(`../assets/cards/${j}_of_${Suit[i]}.svg.png`),
         });
-        // Change all card picture names to match for loops
       }
     }
-    console.log(deck);
     // Add jokers if needed
     return deck;
   }
 }
-// remove one random card from deck
-
-// when new game make new deck instanse

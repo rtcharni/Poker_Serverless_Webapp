@@ -20,7 +20,7 @@ export class Player implements User {
     }
     set currentBet(amount: number) {
         if (amount <= this.money) {
-            this.currentBet = amount;
+            this.bet = amount;
             this.money -= amount;
         } else {
             // No enought money TODO
@@ -29,7 +29,7 @@ export class Player implements User {
 
     public payWinning(winMultiplier: number) {
         this.money += this.currentBet * winMultiplier;
-        this.currentBet = 0;
+        this.bet = 0;
     }
 
 }
