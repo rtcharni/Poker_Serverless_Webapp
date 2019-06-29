@@ -87,7 +87,7 @@ export default Vue.extend({
     ace: cards[0].ace
   }),
   methods: {
-    // changecard() {
+    // dealChangeCards() {
     //   this.cards = this.deck.take5CardsFromDeck().map(card => card);
     // },
     lockCard(event:any) {
@@ -101,12 +101,7 @@ export default Vue.extend({
       console.log(this.lockedCards)
     },
     dealChangeCards() {
-      this.cards.forEach((card, i) => {
-        if (this.lockedCards.indexOf(i) === -1) {
-          console.log('in if!');
-          this.cards[i] = this.deck.takeCardFromDeck();
-        }
-      });
+      this.cards = this.cards.map((card, i) => this.lockedCards.indexOf(i) === -1 ? this.deck.takeCardFromDeck() : card);
     }
   },
   created() {
