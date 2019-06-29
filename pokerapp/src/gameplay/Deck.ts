@@ -25,7 +25,7 @@ export class Deck {
   public getCardBack(howMany: number): Card[] {
     const backCards: Card[] = [];
     for (let i = 0; i < howMany; i++) {
-      backCards.push({ img: require(`../assets/cards/Card_back.svg.png`) });
+      backCards.push({ img: require(`../assets/cards/Card_back.svg.png`), value: 0 });
     }
     return backCards;
   }
