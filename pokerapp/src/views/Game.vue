@@ -59,25 +59,27 @@
           value="4"
         >{{lockedCards.indexOf(4) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
       </div>
-
       <!-- </v-layout>
       </v-container>-->
-      <!-- <div class="row">
-        <v-btn round outline color="indigo">Lock</v-btn>
-        <v-btn round outline color="indigo">Lock</v-btn>
-        <v-btn round outline color="indigo">Lock</v-btn>
-        <v-btn round outline color="indigo">Lock</v-btn>
-      </div>-->
     </div>
     <div>
-      <!-- <v-input label="Place bet" append-icon="close" prepend-icon="phone">lol</v-input> -->
-      <v-text-field v-model="bet" class="betInput" prefix="$" type="number" label="Place bet" solo></v-text-field>
+      <v-text-field
+        :disabled="isGameOn"
+        v-model="bet"
+        class="betInput"
+        prefix="$"
+        type="number"
+        label="Place bet"
+        solo
+      ></v-text-field>
     </div>
     <v-btn
       @click="isGameOn ? dealChangeCards() : dealNewCards()"
       color="indigo"
       class="dealBtn"
     >{{isGameOn ? 'Change cards' : 'Deal'}}</v-btn>
+
+    <Statistics v-bind:player="player"/>
 
     <Snackbar
       id="snackbar"
@@ -96,10 +98,11 @@ import { checkHandForWins } from "../gameplay/WinningTable";
 import { Card } from "../models/interfaces";
 import { Player, createMockPlayer } from "../gameplay/Player";
 import Snackbar from "../components/Snackbar.vue";
+import Statistics from "../components/Statistics.vue";
 
 export default Vue.extend({
   name: "game",
-  components: {Snackbar},
+  components: { Snackbar, Statistics },
   data: () => ({
     snackbar: false,
     bet: 0,
