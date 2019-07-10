@@ -78,7 +78,7 @@
       color="indigo"
       class="dealBtn"
     >{{isGameOn ? 'Change cards' : 'Deal'}}</v-btn>
-
+    <WinningTable v-bind:bet="bet"/>
     <Statistics v-bind:player="player" />
 
     <Snackbar
@@ -94,16 +94,17 @@
 <script lang="ts">
 import Vue from "vue";
 import { Deck } from "../gameplay/Deck";
-import { checkHandForWins } from "../gameplay/WinningTable";
+import { checkHandForWins } from "../gameplay/Winning";
 import { Card } from "../models/interfaces";
 import { Player, createMockPlayer } from "../gameplay/Player";
 import Snackbar from "../components/Snackbar.vue";
 import Statistics from "../components/Statistics.vue";
-import cardDealSound from "../utils/utils";
+import WinningTable from '../components/WinningTable.vue';
+import { cardDealSound, winSound } from "../utils/utils";
 
 export default Vue.extend({
   name: "game",
-  components: { Snackbar, Statistics },
+  components: { Snackbar, Statistics, WinningTable },
   data: () => ({
     audio: Object,
     snackbar: false,
@@ -141,6 +142,7 @@ export default Vue.extend({
       // Hand won
       const possibleWinMultiplier: number = checkHandForWins([...this.cards]);
       if (possibleWinMultiplier) {
+        winSound.play();
         this.player.payWinning(possibleWinMultiplier);
         // console.log('bet: ' + this.bet + '. Multiplier: ' + possibleWinMultiplier + '. WINNING: ' + this.bet * possibleWinMultiplier);
         console.log(this.player);
@@ -150,11 +152,11 @@ export default Vue.extend({
       // console.log(this.player);
     },
     dealNewCards() {
-      cardDealSound.play();
       if (this.bet > this.player.money) {
         this.showAndHideSnackbar();
         return;
       }
+      cardDealSound.play();
       this.isGameOn = true;
       this.player.currentBet = parseInt(this.bet);
       this.cards = this.deck.take5CardsFromDeck();
