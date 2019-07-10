@@ -79,7 +79,7 @@
       class="dealBtn"
     >{{isGameOn ? 'Change cards' : 'Deal'}}</v-btn>
 
-    <Statistics v-bind:player="player"/>
+    <Statistics v-bind:player="player" />
 
     <Snackbar
       id="snackbar"
@@ -99,11 +99,13 @@ import { Card } from "../models/interfaces";
 import { Player, createMockPlayer } from "../gameplay/Player";
 import Snackbar from "../components/Snackbar.vue";
 import Statistics from "../components/Statistics.vue";
+import cardDealSound from "../utils/utils";
 
 export default Vue.extend({
   name: "game",
   components: { Snackbar, Statistics },
   data: () => ({
+    audio: Object,
     snackbar: false,
     bet: 0,
     dealBtn: {
@@ -148,6 +150,7 @@ export default Vue.extend({
       // console.log(this.player);
     },
     dealNewCards() {
+      cardDealSound.play();
       if (this.bet > this.player.money) {
         this.showAndHideSnackbar();
         return;
@@ -164,6 +167,7 @@ export default Vue.extend({
     }
   },
   created() {
+    this.audio = this.$refs.audio;
     this.cards = this.deck.getCardBack(5);
     this.player = createMockPlayer();
     this.loading = false;
