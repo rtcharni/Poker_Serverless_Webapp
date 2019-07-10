@@ -62,7 +62,7 @@
       <!-- </v-layout>
       </v-container>-->
     </div>
-    <div>
+    <div class="row container">
       <v-text-field
         :disabled="isGameOn"
         v-model="bet"
@@ -72,15 +72,21 @@
         label="Place bet"
         solo
       ></v-text-field>
+      <v-btn
+        @click="isGameOn ? dealChangeCards() : dealNewCards()"
+        color="indigo"
+        class="dealBtn"
+      >{{isGameOn ? 'Change cards' : 'Deal'}}</v-btn>
     </div>
-    <v-btn
-      @click="isGameOn ? dealChangeCards() : dealNewCards()"
-      color="indigo"
-      class="dealBtn"
-    >{{isGameOn ? 'Change cards' : 'Deal'}}</v-btn>
-    <WinningTable v-bind:bet="bet"/>
-    <Statistics v-bind:player="player" />
 
+    <v-layout class="stats-wins">
+      <v-flex>
+        <Statistics v-bind:player="player" class="stats" />
+      </v-flex>
+      <v-flex>
+        <WinningTable v-bind:bet="bet" class="wins" />
+      </v-flex>
+    </v-layout>
     <Snackbar
       id="snackbar"
       v-bind:snackbar="snackbar"
@@ -99,7 +105,7 @@ import { Card } from "../models/interfaces";
 import { Player, createMockPlayer } from "../gameplay/Player";
 import Snackbar from "../components/Snackbar.vue";
 import Statistics from "../components/Statistics.vue";
-import WinningTable from '../components/WinningTable.vue';
+import WinningTable from "../components/WinningTable.vue";
 import { cardDealSound, winSound } from "../utils/utils";
 
 export default Vue.extend({
@@ -135,6 +141,7 @@ export default Vue.extend({
       }
     },
     dealChangeCards() {
+      cardDealSound.play();
       this.cards = this.cards.map((card, i) =>
         this.lockedCards.indexOf(i) === -1 ? this.deck.takeCardFromDeck() : card
       );
@@ -169,7 +176,6 @@ export default Vue.extend({
     }
   },
   created() {
-    this.audio = this.$refs.audio;
     this.cards = this.deck.getCardBack(5);
     this.player = createMockPlayer();
     this.loading = false;
@@ -182,10 +188,16 @@ export default Vue.extend({
   width: 10%;
 }
 .lockedBtn {
-  background-color: rgb(0, 110, 255) !important;
+  background-color: rgb(0, 195, 255) !important;
 }
 .betInput {
   max-width: 10%;
+}
+.stats {
+  margin-right: 10px;
+}
+.wins {
+  margin-left: 10px;
 }
 </style>
 
