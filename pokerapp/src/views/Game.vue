@@ -4,7 +4,12 @@
     <!-- <v-layout row> -->
     <div v-if="!loading" class="row">
       <div class="col">
-        <v-img class="card" v-bind:src="cards[0].img" height="auto" width="150"></v-img>
+        <v-img
+          class="card animated faster card1"
+          v-bind:src="cards[0].img"
+          height="auto"
+          width="150"
+        ></v-img>
         <v-btn
           v-bind:class="{lockedBtn: lockedCards.indexOf(0) !== -1}"
           @click="lockCard"
@@ -16,7 +21,12 @@
         >{{lockedCards.indexOf(0) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
       </div>
       <div class="col">
-        <v-img class="card" v-bind:src="cards[1].img" height="auto" width="150"></v-img>
+        <v-img
+          class="card animated faster card2"
+          v-bind:src="cards[1].img"
+          height="auto"
+          width="150"
+        ></v-img>
         <v-btn
           v-bind:class="{lockedBtn: lockedCards.indexOf(1) !== -1}"
           @click="lockCard"
@@ -27,7 +37,12 @@
         >{{lockedCards.indexOf(1) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
       </div>
       <div class="col">
-        <v-img class="card" v-bind:src="cards[2].img" height="auto" width="150"></v-img>
+        <v-img
+          class="card animated faster card3"
+          v-bind:src="cards[2].img"
+          height="auto"
+          width="150"
+        ></v-img>
         <v-btn
           v-bind:class="{lockedBtn: lockedCards.indexOf(2) !== -1}"
           @click="lockCard"
@@ -38,7 +53,12 @@
         >{{lockedCards.indexOf(2) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
       </div>
       <div class="col">
-        <v-img class="card" v-bind:src="cards[3].img" height="auto" width="150"></v-img>
+        <v-img
+          class="card animated faster card4"
+          v-bind:src="cards[3].img"
+          height="auto"
+          width="150"
+        ></v-img>
         <v-btn
           v-bind:class="{lockedBtn: lockedCards.indexOf(3) !== -1}"
           @click="lockCard"
@@ -49,7 +69,12 @@
         >{{lockedCards.indexOf(3) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
       </div>
       <div class="col">
-        <v-img class="card" v-bind:src="cards[4].img" height="auto" width="150"></v-img>
+        <v-img
+          class="card animated faster card5"
+          v-bind:src="cards[4].img"
+          height="auto"
+          width="150"
+        ></v-img>
         <v-btn
           v-bind:class="{lockedBtn: lockedCards.indexOf(4) !== -1}"
           @click="lockCard"
@@ -144,9 +169,19 @@ export default Vue.extend({
     },
     dealChangeCards() {
       cardDealSound.play();
-      this.cards = this.cards.map((card, i) =>
-        this.lockedCards.indexOf(i) === -1 ? this.deck.takeCardFromDeck() : card
-      );
+
+      this.cards = this.cards.map((card, i) => {
+        let changeCardNumber = 1;
+        if (this.lockedCards.indexOf(i) === -1) {
+          document
+            .querySelector(`.card${i + 1}`)
+            .classList.add("fadeInRightBig", `card${changeCardNumber}-anim`);
+          changeCardNumber++;
+          return this.deck.takeCardFromDeck();
+        } else {
+          return card;
+        }
+      });
       this.lockedCards = [];
       // Hand won
       const possibleWinMultiplier: number = checkHandForWins([...this.cards]);
@@ -168,6 +203,7 @@ export default Vue.extend({
       this.isGameOn = true;
       this.player.currentBet = parseInt(this.bet);
       this.cards = this.deck.take5CardsFromDeck();
+      this.animateAllCards();
     },
     showAndHideSnackbar() {
       this.snackbar = true;
@@ -177,13 +213,34 @@ export default Vue.extend({
     },
     changeSound() {
       this.sound ? soundsOff() : soundsOn();
-      this.sound = !this.sound; 
+      this.sound = !this.sound;
+    },
+    activateAnimationEndListeners() {
+      for (let i = 1; i <= 5; i++) {
+        document
+          .querySelector(`.card${i}`)
+          .addEventListener("animationend", function() {
+            document
+              .querySelector(`.card${i}`)
+              .classList.remove(`card${i}-anim`, `fadeInRightBig`);
+          });
+      }
+    },
+    animateAllCards() {
+      for (let i = 1; i <= 5; i++) {
+        document
+          .querySelector(`.card${i}`)
+          .classList.add(`fadeInRightBig`, `card${i}-anim`);
+      }
     }
   },
   created() {
     this.cards = this.deck.getCardBack(5);
     this.player = createMockPlayer();
     this.loading = false;
+  },
+  mounted() {
+    this.activateAnimationEndListeners();
   }
 });
 </script>
@@ -203,6 +260,21 @@ export default Vue.extend({
 }
 .wins {
   margin-left: 10px;
+}
+.card1-anim {
+  animation-delay: 0s;
+}
+.card2-anim {
+  animation-delay: 0.15s;
+}
+.card3-anim {
+  animation-delay: 0.3s;
+}
+.card4-anim {
+  animation-delay: 0.45s;
+}
+.card5-anim {
+  animation-delay: 0.6s;
 }
 </style>
 
