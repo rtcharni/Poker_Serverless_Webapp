@@ -77,6 +77,7 @@
         color="indigo"
         class="dealBtn"
       >{{isGameOn ? 'Change cards' : 'Deal'}}</v-btn>
+      <v-icon large @click="changeSound">{{sound ? 'volume_off' : 'volume_up'}}</v-icon>
     </div>
 
     <v-layout class="stats-wins">
@@ -106,7 +107,7 @@ import { Player, createMockPlayer } from "../gameplay/Player";
 import Snackbar from "../components/Snackbar.vue";
 import Statistics from "../components/Statistics.vue";
 import WinningTable from "../components/WinningTable.vue";
-import { cardDealSound, winSound } from "../utils/utils";
+import { cardDealSound, winSound, soundsOff, soundsOn } from "../utils/utils";
 
 export default Vue.extend({
   name: "game",
@@ -120,6 +121,7 @@ export default Vue.extend({
     },
     loading: true,
     isGameOn: false,
+    sound: true,
     deck: new Deck(),
     cards: [] as Card[],
     lockedCards: [] as Number[],
@@ -151,7 +153,6 @@ export default Vue.extend({
       if (possibleWinMultiplier) {
         winSound.play();
         this.player.payWinning(possibleWinMultiplier);
-        // console.log('bet: ' + this.bet + '. Multiplier: ' + possibleWinMultiplier + '. WINNING: ' + this.bet * possibleWinMultiplier);
         console.log(this.player);
       }
       this.deck = new Deck();
@@ -173,6 +174,10 @@ export default Vue.extend({
       setTimeout(() => {
         this.snackbar = false;
       }, 3000);
+    },
+    changeSound() {
+      this.sound ? soundsOff() : soundsOn();
+      this.sound = !this.sound; 
     }
   },
   created() {
