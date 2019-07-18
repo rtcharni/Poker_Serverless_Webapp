@@ -103,6 +103,7 @@
         class="dealBtn"
       >{{isGameOn ? 'Change cards' : 'Deal'}}</v-btn>
       <v-icon large @click="changeSound">{{sound ? 'volume_off' : 'volume_up'}}</v-icon>
+      <Toplist/>
     </div>
 
     <v-layout class="stats-wins">
@@ -132,11 +133,13 @@ import { Player, createMockPlayer } from "../gameplay/Player";
 import Snackbar from "../components/Snackbar.vue";
 import Statistics from "../components/Statistics.vue";
 import WinningTable from "../components/WinningTable.vue";
+import Toplist from "../components/Toplist.vue";
+
 import { cardDealSound, winSound, soundsOff, soundsOn } from "../utils/utils";
 
 export default Vue.extend({
   name: "game",
-  components: { Snackbar, Statistics, WinningTable },
+  components: { Snackbar, Statistics, WinningTable, Toplist },
   data: () => ({
     audio: Object,
     snackbar: false,

@@ -10,7 +10,7 @@
           dark
           v-on="on"
         >
-          Click Me
+          Show Toplist
         </v-btn>
       </template>
 
