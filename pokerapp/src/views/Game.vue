@@ -5,10 +5,10 @@
     <!-- <div v-if="!loading" class="row"> -->
     <!-- <div class="col"> -->
     <div v-if="!loading" style="display: flex" class="row">
-      <v-img class="card animated faster card1" v-bind:src="cards[0].img" height="auto" width="auto"></v-img>
-      <v-img class="card animated faster card2" v-bind:src="cards[1].img" height="auto" width="auto"></v-img>
-      <v-img class="card animated faster card3" v-bind:src="cards[2].img" height="auto" width="auto"></v-img>
-      <v-img class="card animated faster card4" v-bind:src="cards[3].img" height="auto" width="auto"></v-img>
+      <v-img class="card mr-5 animated faster card1" v-bind:src="cards[0].img" height="auto" width="auto"></v-img>
+      <v-img class="card mr-5 animated faster card2" v-bind:src="cards[1].img" height="auto" width="auto"></v-img>
+      <v-img class="card mr-5 animated faster card3" v-bind:src="cards[2].img" height="auto" width="auto"></v-img>
+      <v-img class="card mr-5 animated faster card4" v-bind:src="cards[3].img" height="auto" width="auto"></v-img>
       <v-img class="card animated faster card5" v-bind:src="cards[4].img" height="auto" width="auto"></v-img>
     </div>
     <div class="row" style="display: flex; flex-direction: row; justify-content: space-around;">
@@ -19,7 +19,7 @@
         outline
         color="indigo"
         value="0"
-        class
+        class="mr-5"
       >{{lockedCards.indexOf(0) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
       <!-- </div>
       <div class="col">-->
@@ -30,6 +30,7 @@
         outline
         color="indigo"
         value="1"
+        class="mr-5"
       >{{lockedCards.indexOf(1) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
       <!-- </div>
       <div class="col">-->
@@ -40,6 +41,7 @@
         outline
         color="indigo"
         value="2"
+        class="mr-5"
       >{{lockedCards.indexOf(2) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
       <!-- </div>
       <div class="col">-->
@@ -50,6 +52,7 @@
         outline
         color="indigo"
         value="3"
+        class="mr-5"
       >{{lockedCards.indexOf(3) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
       <!-- </div>
       <div class="col">-->
