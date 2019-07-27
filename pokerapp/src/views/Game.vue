@@ -2,92 +2,71 @@
   <div class="container">
     <!-- <v-container> -->
     <!-- <v-layout row> -->
-    <div v-if="!loading" class="row">
-      <div class="col">
-        <v-img
-          class="card animated faster card1"
-          v-bind:src="cards[0].img"
-          height="auto"
-          width="150"
-        ></v-img>
-        <v-btn
-          v-bind:class="{lockedBtn: lockedCards.indexOf(0) !== -1}"
-          @click="lockCard"
-          round
-          outline
-          color="indigo"
-          value="0"
-          class
-        >{{lockedCards.indexOf(0) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
-      </div>
-      <div class="col">
-        <v-img
-          class="card animated faster card2"
-          v-bind:src="cards[1].img"
-          height="auto"
-          width="150"
-        ></v-img>
-        <v-btn
-          v-bind:class="{lockedBtn: lockedCards.indexOf(1) !== -1}"
-          @click="lockCard"
-          round
-          outline
-          color="indigo"
-          value="1"
-        >{{lockedCards.indexOf(1) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
-      </div>
-      <div class="col">
-        <v-img
-          class="card animated faster card3"
-          v-bind:src="cards[2].img"
-          height="auto"
-          width="150"
-        ></v-img>
-        <v-btn
-          v-bind:class="{lockedBtn: lockedCards.indexOf(2) !== -1}"
-          @click="lockCard"
-          round
-          outline
-          color="indigo"
-          value="2"
-        >{{lockedCards.indexOf(2) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
-      </div>
-      <div class="col">
-        <v-img
-          class="card animated faster card4"
-          v-bind:src="cards[3].img"
-          height="auto"
-          width="150"
-        ></v-img>
-        <v-btn
-          v-bind:class="{lockedBtn: lockedCards.indexOf(3) !== -1}"
-          @click="lockCard"
-          round
-          outline
-          color="indigo"
-          value="3"
-        >{{lockedCards.indexOf(3) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
-      </div>
-      <div class="col">
-        <v-img
-          class="card animated faster card5"
-          v-bind:src="cards[4].img"
-          height="auto"
-          width="150"
-        ></v-img>
-        <v-btn
-          v-bind:class="{lockedBtn: lockedCards.indexOf(4) !== -1}"
-          @click="lockCard"
-          round
-          outline
-          color="indigo"
-          value="4"
-        >{{lockedCards.indexOf(4) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
-      </div>
-      <!-- </v-layout>
-      </v-container>-->
+    <!-- <div v-if="!loading" class="row"> -->
+    <!-- <div class="col"> -->
+    <div v-if="!loading" style="display: flex" class="row">
+      <v-img class="card animated faster card1" v-bind:src="cards[0].img" height="auto" width="auto"></v-img>
+      <v-img class="card animated faster card2" v-bind:src="cards[1].img" height="auto" width="auto"></v-img>
+      <v-img class="card animated faster card3" v-bind:src="cards[2].img" height="auto" width="auto"></v-img>
+      <v-img class="card animated faster card4" v-bind:src="cards[3].img" height="auto" width="auto"></v-img>
+      <v-img class="card animated faster card5" v-bind:src="cards[4].img" height="auto" width="auto"></v-img>
     </div>
-    <div class="row container">
+    <div class="row" style="display: flex; flex-direction: row; justify-content: space-around;">
+      <v-btn
+        v-bind:class="{lockedBtn: lockedCards.indexOf(0) !== -1}"
+        @click="lockCard"
+        round
+        outline
+        color="indigo"
+        value="0"
+        class
+      >{{lockedCards.indexOf(0) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
+      <!-- </div>
+      <div class="col">-->
+      <v-btn
+        v-bind:class="{lockedBtn: lockedCards.indexOf(1) !== -1}"
+        @click="lockCard"
+        round
+        outline
+        color="indigo"
+        value="1"
+      >{{lockedCards.indexOf(1) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
+      <!-- </div>
+      <div class="col">-->
+      <v-btn
+        v-bind:class="{lockedBtn: lockedCards.indexOf(2) !== -1}"
+        @click="lockCard"
+        round
+        outline
+        color="indigo"
+        value="2"
+      >{{lockedCards.indexOf(2) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
+      <!-- </div>
+      <div class="col">-->
+      <v-btn
+        v-bind:class="{lockedBtn: lockedCards.indexOf(3) !== -1}"
+        @click="lockCard"
+        round
+        outline
+        color="indigo"
+        value="3"
+      >{{lockedCards.indexOf(3) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
+      <!-- </div>
+      <div class="col">-->
+      <v-btn
+        v-bind:class="{lockedBtn: lockedCards.indexOf(4) !== -1}"
+        @click="lockCard"
+        round
+        outline
+        color="indigo"
+        value="4"
+      >{{lockedCards.indexOf(4) !== -1 ? 'Locked' : 'Lock'}}</v-btn>
+    </div>
+    <!-- </div> -->
+    <!-- </v-layout>
+    </v-container>-->
+    <!-- </div> -->
+    <div v-if="!loading" class="row container" style="display: flex; justify-content: space-between;">
       <v-text-field
         :disabled="isGameOn"
         v-model="bet"
@@ -102,8 +81,8 @@
         color="indigo"
         class="dealBtn"
       >{{isGameOn ? 'Change cards' : 'Deal'}}</v-btn>
-      <v-icon large @click="changeSound">{{sound ? 'volume_off' : 'volume_up'}}</v-icon>
-      <Toplist/>
+      <Toplist />
+      <v-icon class="soundBtn" large @click="changeSound">{{sound ? 'volume_off' : 'volume_up'}}</v-icon>
     </div>
 
     <v-layout class="stats-wins">
@@ -251,9 +230,14 @@ export default Vue.extend({
 <style scoped>
 .dealBtn {
   width: 10%;
+  /* margin-right: calc(100% - 3em); */
+  margin-right: 55%;
 }
 .lockedBtn {
   background-color: rgb(0, 195, 255) !important;
+}
+.soundBtn {
+  margin-bottom: 27px;
 }
 .betInput {
   max-width: 10%;
