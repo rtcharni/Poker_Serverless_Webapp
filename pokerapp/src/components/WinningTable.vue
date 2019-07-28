@@ -4,7 +4,7 @@
       <v-card-title>
         <h4>Winning table</h4>
       </v-card-title>
-      <v-divider></v-divider>
+      <!-- <v-divider></v-divider> -->
       <v-list dense>
         <v-list-tile>
           <v-list-tile-content>Royal flush:</v-list-tile-content>
@@ -62,5 +62,11 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.v-list {
+  background: #feffffb8;
+}
+.v-card {
+  background: #3aca7582;
+}
 </style>
 

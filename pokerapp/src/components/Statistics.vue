@@ -2,7 +2,7 @@
   <div>
      <v-card>
             <v-card-title><h4>Your Stats</h4></v-card-title>
-            <v-divider></v-divider>
+            <!-- <v-divider></v-divider> -->
             <v-list dense>
               <v-list-tile>
                 <v-list-tile-content>Money:</v-list-tile-content>
@@ -43,14 +43,6 @@ export default Vue.extend({
   components: {},
   props: {
     player: Player,
-    //   user: Object as User,
-    // username: String,
-    // money: Number,
-    // wins: Number,
-    // loses: Number,
-    // biggestWin: Number,
-    // moneyRecord: Number,
-    // totalGames: Number,
   },
   data: () => ({
   }),
@@ -60,5 +52,11 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.v-list {
+  background: #feffffb8;
+}
+.v-card {
+  background: #3aca7582;
+}
 </style>
 
