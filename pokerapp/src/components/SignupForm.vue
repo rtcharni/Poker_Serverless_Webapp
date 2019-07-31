@@ -3,6 +3,9 @@
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-card light>
+          <div class="spinnerDiv">
+            <v-progress-circular v-if="loading" size="120" width="7" indeterminate color="primary" class="spinner"></v-progress-circular>
+            </div>
           <v-card-title primary-title>
             <div>
               <h3 class="display-2 font-font-font-weight-medium mt-2">Signup</h3>
@@ -38,8 +41,8 @@
       id="snackbar"
       v-bind:snackbar="snackbar"
       v-bind:timeout="0"
-      v-bind:text="'Username already exists...'"
-      v-bind:color="'error'"
+      v-bind:text="snackbarText"
+      v-bind:color="snackbarColor"
     />
   </div>
 </template>
@@ -47,6 +50,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Snackbar from "./Snackbar.vue";
+import { createUser } from "../utils/apiRequests";
 
 export default Vue.extend({
   name: "signupform",
@@ -54,7 +58,10 @@ export default Vue.extend({
     Snackbar
   },
   data: () => ({
+    loading: false,
     snackbar: false,
+    snackbarText: "",
+    snackbarColor: "",
     valid: false,
     username: "",
     usernameRules: [
@@ -66,28 +73,25 @@ export default Vue.extend({
     passwordRules: [
       (v: string) => !!v || "Password is required",
       (v: string) =>
-        (v && v.length >= 6) || "Name must be at least 6 characters"
+        (v && v.length >= 5) || "Password must be at least 5 characters"
     ]
   }),
   methods: {
     async handleSignupClick() {
       if ((<any>this.$refs.loginform).validate()) {
         console.log(this);
-        const user = await (await fetch("GetUserURL")).json();
-        if (!user) {
-          // Create user, send api call, ok message -> redirect..
-          let headers: Headers = new Headers();
-          headers.set("Content-Type", "Application/json");
-          const success = await fetch("CreateUserURL", {
-            method: "POST",
-            headers: headers
-          });
-          // If ok redirect
-          if (success) {
+        this.loading = true;
+        const response = await createUser(this.username, this.password);
+        console.log(response);
+        if (response.success) {
+          this.showAndHideSnackbar(response.msg, "success", 3000);
+          setTimeout(() => {
             this.$router.push({ name: "login" });
-          }
+          }, 3000);
+          this.loading = false;
         } else {
-          this.showAndHideSnackbar();
+          this.loading = false;
+          this.showAndHideSnackbar(response.msg, "error", 4000);
           return;
         }
       }
@@ -95,16 +99,25 @@ export default Vue.extend({
     handleResetClick() {
       (<any>this.$refs.loginform).reset();
     },
-    showAndHideSnackbar() {
+    showAndHideSnackbar(message: string, color: string, duration: number) {
+      this.snackbarText = message;
+      this.snackbarColor = color;
       this.snackbar = true;
       setTimeout(() => {
         this.snackbar = false;
-      }, 4000);
+      }, duration);
     }
   }
 });
 </script>
 
 <style scoped>
+.spinner {
+  position: absolute;
+}
+.spinnerDiv {
+  display: flex;
+  justify-content: center;
+}
 </style>
 
