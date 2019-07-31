@@ -18,7 +18,8 @@
     "bcrypt": "^3.0.6",
     "firebase-admin": "~7.0.0",
     "firebase-functions": "^2.3.0",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "cors": "*.*.*"
   },
   "devDependencies": {
     "firebase-functions-test": "^0.1.6",
