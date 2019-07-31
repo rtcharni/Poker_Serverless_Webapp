@@ -1,44 +1,39 @@
 <template>
   <div class="text-xs-center">
-    <v-dialog
-      v-model="dialog"
-      width="500"
-    >
+    <v-dialog v-model="dialog" width="900">
       <template v-slot:activator="{ on }">
-        <v-btn
-          color="red lighten-2"
-          dark
-          v-on="on"
-        >
-          Show Toplist
-        </v-btn>
+        <v-btn color="red lighten-2" dark v-on="on">Show Toplist</v-btn>
       </template>
-
-      <v-card>
-        <v-card-title
-          class="headline grey lighten-2"
-          primary-title
-        >
-          Poker Toplist
-        </v-card-title>
-
-        <v-card-text>
-          Lorem ipsum dolor sit at laba pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </v-card-text>
-
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            flat
-            @click="dialog = false"
-          >
-            I accept
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+      <v-tabs fixed-tabs background-color="indigo" dark>
+        <v-tab>Money record</v-tab>
+        <v-tab-item>
+          <v-card>
+            <v-list dense dark rounded>
+              <v-list-tile>
+                <v-list-tile-content class="align-center">Pertti</v-list-tile-content>
+                <v-list-tile-content class="align-center">540</v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-content class="align-center">Jarkko</v-list-tile-content>
+                <v-list-tile-content class="align-center">454</v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-content class="align-center">Matilda</v-list-tile-content>
+                <v-list-tile-content class="align-center">234</v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-card>
+        </v-tab-item>
+        <v-tab>Most money</v-tab>
+        <v-tab-item><v-card><v-list dense dark rounded><v-list-tile></v-list-tile></v-list></v-card></v-tab-item>
+        <v-tab>Most wins</v-tab>
+        <v-tab-item><v-card><v-list dense dark rounded><v-list-tile></v-list-tile></v-list></v-card></v-tab-item>
+        <v-tab>Most loses</v-tab>
+        <v-tab-item><v-card><v-list dense dark rounded><v-list-tile></v-list-tile></v-list></v-card></v-tab-item>
+      <!-- <v-btn class="" color="primary" @click="dialog = false">Close</v-btn> -->
+      </v-tabs>
+      <v-spacer></v-spacer>
+    
     </v-dialog>
   </div>
 </template>
@@ -49,14 +44,11 @@ import Vue from "vue";
 export default Vue.extend({
   name: "toplist",
   components: {},
-  props: {
-
-  },
+  props: {},
   data: () => ({
-      dialog: false
+    dialog: false
   }),
-  methods: {
-  }
+  methods: {}
 });
 </script>
 

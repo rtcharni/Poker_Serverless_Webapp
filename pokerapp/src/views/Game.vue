@@ -1,6 +1,6 @@
 <template>
   <v-img
-    v-bind:src="require('../assets/a.png')"
+    v-bind:src="require('../assets/greenbackground.png')"
     max-height="1000"
   >
     <div class="container">
