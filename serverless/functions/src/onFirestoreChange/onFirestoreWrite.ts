@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import { getStatisticsDataDB, updateUserStatisticsDataDB } from '../utils/firestore';
-import { ToplistUser } from '../models/toplist';
+import { Toplist } from '../models/toplist';
 
 export const onFirestoreWrite = functions.firestore.document('users/{username}').onWrite(async (change, context) => {
     try {
@@ -9,7 +9,7 @@ export const onFirestoreWrite = functions.firestore.document('users/{username}')
         if (!userDoc) return Promise.resolve();
 
         const statistics = await getStatisticsDataDB();
-        const toplistUser: ToplistUser = {};
+        const toplistUser: Toplist = {};
         let needsToUpdate = false;
         let newUserCreated = true;
         // Loop documents and compare statistics
@@ -38,7 +38,7 @@ export const onFirestoreWrite = functions.firestore.document('users/{username}')
         if (needsToUpdate) {
             await updateUserStatisticsDataDB(toplistUser);
         } else if (newUserCreated) {
-            const newToplistUser: ToplistUser = {}
+            const newToplistUser: Toplist = {}
             newToplistUser[userDoc.username] = { biggest_win: 0, wins: 0, money: 50, money_record: 0 };
             await updateUserStatisticsDataDB(newToplistUser);
         }

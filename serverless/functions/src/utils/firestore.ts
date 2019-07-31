@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import { User } from '../models/user';
-import { ToplistUser } from '../models/toplist';
+import { Toplist } from '../models/toplist';
 
 const DB = admin.firestore();
 
@@ -36,7 +36,7 @@ export const getStatisticsDataDB = async () => {
     return statisticsDoc.data();
 }
 
-export const updateUserStatisticsDataDB = async (toplistUser: ToplistUser) => {
+export const updateUserStatisticsDataDB = async (toplistUser: Toplist) => {
     const statisticsDoc = await DB.collection('toplists').doc('toplist').set(toplistUser, {merge: true});
     return statisticsDoc;
 }
