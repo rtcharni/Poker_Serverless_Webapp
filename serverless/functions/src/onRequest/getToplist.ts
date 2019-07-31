@@ -4,7 +4,7 @@ import { getStatisticsDataDB } from '../utils/firestore';
 export const getToplist = functions.https.onRequest(async (request, response) => {
     try {
         const toplist = await getStatisticsDataDB();
-        response.send({ toplist, success: true });
+        response.send({ toplist, msg: `Toplist fetched..`, success: true });
     } catch (error) {
         response.status(500).send({ msg: `Server error...`, success: false});
     }

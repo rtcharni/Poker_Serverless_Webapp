@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions';
-import * as jwt from 'jsonwebtoken';
+// import * as jwt from 'jsonwebtoken';
 import { User } from '../models/user';
 import { updateUserDataDB } from '../utils/firestore';
 
@@ -7,18 +7,18 @@ import { updateUserDataDB } from '../utils/firestore';
 export const updateUser = functions.https.onRequest(async (request, response) => {
     try {
         // Verify token
-        const bearerHeader: string = request.headers['authorization'];
-        if (!bearerHeader || !bearerHeader.startsWith('Bearer ')) {
-            // No token in headers REDIRECT TO LOGIN AGAIN!?
-            response.status(403).send({ msg: `No auth`, success: false })
-        }
-        const token: string = bearerHeader.split(' ')[1];
-        try {
-            jwt.verify(token, functions.config().poker.apikey);
-        } catch (tokenError) {
-            // Token expired or wrong token in headers REDIRECT TO LOGIN AGAIN!?
-            response.status(403).send({ msg: `No auth`, success: false })
-        }
+        // const bearerHeader: string = request.headers['authorization'];
+        // if (!bearerHeader || !bearerHeader.startsWith('Bearer ')) {
+        //     // No token in headers REDIRECT TO LOGIN AGAIN!?
+        //     response.status(403).send({ msg: `No auth`, success: false })
+        // }
+        // const token: string = bearerHeader.split(' ')[1];
+        // try {
+        //     jwt.verify(token, functions.config().poker.apikey);
+        // } catch (tokenError) {
+        //     // Token expired or wrong token in headers REDIRECT TO LOGIN AGAIN!?
+        //     response.status(403).send({ msg: `No auth`, success: false })
+        // }
         const user: User = constructUser(request.body);
         await updateUserDataDB(user);
         response.status(200).send({ msg: `User ${user.username} updated!`, success: true });
