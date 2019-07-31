@@ -3,14 +3,24 @@
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-card light>
+
           <div class="spinnerDiv">
-            <v-progress-circular v-if="loading" size="120" width="7" indeterminate color="primary" class="spinner"></v-progress-circular>
-            </div>
+            <v-progress-circular
+              v-if="loading"
+              size="120"
+              width="7"
+              indeterminate
+              color="primary"
+              class="spinner"
+            ></v-progress-circular>
+          </div>
+
           <v-card-title primary-title>
             <div>
               <h3 class="display-2 font-font-font-weight-medium mt-2">Signup</h3>
             </div>
           </v-card-title>
+          
           <v-card-text>
             <v-form ref="loginform" v-model="valid" lazy-validation>
               <v-text-field
