@@ -1,4 +1,4 @@
-export interface ToplistUser {
+export interface Toplist {
     [key: string]: UserStats
 }
 
