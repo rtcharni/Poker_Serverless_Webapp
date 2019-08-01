@@ -39,11 +39,11 @@ const router = new Router({
   ],
 });
 // IN PROD!
-// router.beforeEach((to, from, next) => {
-//   if (to.name === 'game' && !to.params.user) {
-//     next({name: 'login', replace: true});
-//   }
-//   next();
-// });
+router.beforeEach((to, from, next) => {
+  if (to.name === 'game' && !to.params.user) {
+    next({name: 'login', replace: true});
+  }
+  next();
+});
 
 export default router;
