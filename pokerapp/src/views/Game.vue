@@ -1,8 +1,8 @@
 <template>
-  <v-img
-    v-bind:src="require('../assets/greenbackground.png')"
-    max-height="1000"
-  >
+  <v-img v-bind:src="require('../assets/greenbackground.png')" max-height="1000">
+    <v-btn @click="logout" class="logoutBtn" fab dark color="teal">
+      <v-icon dark>logout</v-icon>
+    </v-btn>
     <div class="container">
       <div v-if="!loading" style="display: flex" class="row">
         <v-img
@@ -101,6 +101,7 @@
           @click="isGameOn ? dealChangeCards() : dealNewCards()"
           color="indigo"
           class="dealBtn"
+          outlined
         >{{isGameOn ? 'Change cards' : 'Deal'}}</v-btn>
         <Toplist />
         <v-icon class="soundBtn" large @click="changeSound">{{sound ? 'volume_off' : 'volume_up'}}</v-icon>
@@ -118,8 +119,8 @@
         id="snackbar"
         v-bind:snackbar="snackbar"
         v-bind:timeout="0"
-        v-bind:text="'No enough money...'"
-        v-bind:color="'error'"
+        v-bind:text="snackbarText"
+        v-bind:color="snackbarColor"
       />
     </div>
   </v-img>
@@ -130,21 +131,28 @@ import Vue from "vue";
 import { Deck } from "../gameplay/Deck";
 import { checkHandForWins } from "../gameplay/Winning";
 import { Card } from "../models/interfaces";
-import { Player, createMockPlayer } from "../gameplay/Player";
+import {
+  Player,
+  createMockPlayer,
+  createPlayerFromUser
+} from "../gameplay/Player";
 import Snackbar from "../components/Snackbar.vue";
 import Statistics from "../components/Statistics.vue";
 import WinningTable from "../components/WinningTable.vue";
 import Toplist from "../components/Toplist.vue";
 
 import { cardDealSound, winSound, soundsOff, soundsOn } from "../utils/utils";
+import { updateUser } from "../utils/apiRequests";
 
 export default Vue.extend({
   name: "game",
   components: { Snackbar, Statistics, WinningTable, Toplist },
   data: () => ({
-    audio: Object,
+    snackbarText: "",
+    snackbarColor: "",
     snackbar: false,
-    bet: 0,
+    audio: Object,
+    bet: "0",
     dealBtn: {
       text: "Deal"
     },
@@ -171,7 +179,7 @@ export default Vue.extend({
         this.lockedCards = this.lockedCards.filter(x => x !== number);
       }
     },
-    dealChangeCards() {
+    async dealChangeCards() {
       cardDealSound.play();
 
       this.cards = this.cards.map((card, i) => {
@@ -187,20 +195,38 @@ export default Vue.extend({
         }
       });
       this.lockedCards = [];
-      // Hand won
       const possibleWinMultiplier: number = checkHandForWins([...this.cards]);
+
+      // Hand won
       if (possibleWinMultiplier) {
         winSound.play();
+        const totalWin: number = this.player.currentBet * possibleWinMultiplier;
+        this.player.statistics.biggest_win =
+          totalWin > this.player.statistics.biggest_win
+            ? totalWin
+            : this.player.statistics.biggest_win;
+
         this.player.payWinning(possibleWinMultiplier);
-        console.log(this.player);
+        this.player.statistics.wins++;
+        this.player.statistics.total_games++;
+      } else {
+        // Hand lost
+        this.player.statistics.loses++;
+        this.player.statistics.total_games++;
       }
+
+      if (this.player.money > this.player.statistics.money_record) {
+        this.player.statistics.money_record = this.player.money;
+      }
+
+      console.log(this.player);
+      await updateUser(this.player);
       this.deck = new Deck();
       this.isGameOn = false;
-      // console.log(this.player);
     },
     dealNewCards() {
       if (this.bet > this.player.money) {
-        this.showAndHideSnackbar();
+        this.showAndHideSnackbar("No enough money...", "info", 3000);
         return;
       }
       cardDealSound.play();
@@ -209,11 +235,13 @@ export default Vue.extend({
       this.cards = this.deck.take5CardsFromDeck();
       this.animateAllCards();
     },
-    showAndHideSnackbar() {
+    showAndHideSnackbar(message: string, color: string, duration: number) {
+      this.snackbarText = message;
+      this.snackbarColor = color;
       this.snackbar = true;
       setTimeout(() => {
         this.snackbar = false;
-      }, 3000);
+      }, duration);
     },
     changeSound() {
       this.sound ? soundsOff() : soundsOn();
@@ -236,15 +264,27 @@ export default Vue.extend({
           .querySelector(`.card${i}`)
           .classList.add(`fadeInRightBig`, `card${i}-anim`);
       }
+    },
+    logout() {
+      this.$router.replace({
+        name: "login",
+        params: { loggedIn: "false" }
+      });
     }
   },
   created() {
     this.cards = this.deck.getCardBack(5);
-    this.player = createMockPlayer();
+    // this.player = createMockPlayer();
+    if (this.$route.params.user) {
+      this.player = createPlayerFromUser(this.$route.params.user);
+    }
+    console.log(this.player);
     this.loading = false;
   },
   mounted() {
     this.activateAnimationEndListeners();
+    console.log(this);
+    // console.log(this.$route.params)
   }
 });
 </script>
@@ -256,7 +296,7 @@ export default Vue.extend({
   margin-right: 55%;
 }
 .lockedBtn {
-  background-color: rgb(0, 195, 255) !important;
+  background-color: rgba(161, 192, 202, 0.7) !important;
 }
 .soundBtn {
   margin-bottom: 27px;
@@ -285,8 +325,13 @@ export default Vue.extend({
 .card5-anim {
   animation-delay: 0.6s;
 }
-/* .theme--light.v-list {
-  background: #e4efea !important;
-} */
+.logoutBtn {
+  float: right;
+  margin-right: 3%;
+  margin-top: 1.5%;
+}
+.v-btn.v-btn--outline {
+  border: 3px solid currentColor;
+}
 </style>
 
