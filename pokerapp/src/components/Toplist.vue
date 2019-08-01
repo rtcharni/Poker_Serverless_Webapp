@@ -4,12 +4,15 @@
       <template v-slot:activator="{ on }">
         <v-btn color="red lighten-2" dark v-on="on">Show Toplist</v-btn>
       </template>
-      <v-tabs fixed-tabs background-color="indigo" dark>
+
+      <v-tabs fixed-tabs>
         <v-tab>Money record</v-tab>
         <v-tab-item>
           <v-card>
-            <v-list dense dark rounded>
+            <v-list dense rounded dark>
               <v-list-tile v-for="(item, index) in moneyRecords" :key="index">
+                <img v-if="index < 3" class="iconLeft" v-bind:src="require(`../assets/${index}.png`)"/>
+                <img v-if="index === 0" class="iconRight" v-bind:src="require(`../assets/crown.png`)"/>
                 <v-list-tile-content class="align-center">{{item.name}}</v-list-tile-content>
                 <v-list-tile-content class="align-center">{{item.value}}</v-list-tile-content>
               </v-list-tile>
@@ -19,8 +22,10 @@
         <v-tab>Most money</v-tab>
         <v-tab-item>
           <v-card>
-            <v-list dense dark rounded>
+            <v-list dense rounded dark>
               <v-list-tile v-for="(item, index) in money" :key="index">
+                <img v-if="index < 3" class="iconLeft" v-bind:src="require(`../assets/${index}.png`)"/>
+                <img v-if="index === 0" class="iconRight" v-bind:src="require(`../assets/crown.png`)"/>
                 <v-list-tile-content class="align-center">{{item.name}}</v-list-tile-content>
                 <v-list-tile-content class="align-center">{{item.value}}</v-list-tile-content>
               </v-list-tile>
@@ -30,8 +35,10 @@
         <v-tab>Most wins</v-tab>
         <v-tab-item>
           <v-card>
-            <v-list dense dark rounded>
+            <v-list dense rounded dark>
               <v-list-tile v-for="(item, index) in wins" :key="index">
+                <img v-if="index < 3" class="iconLeft" v-bind:src="require(`../assets/${index}.png`)"/>
+                <img v-if="index === 0" class="iconRight" v-bind:src="require(`../assets/crown.png`)"/>
                 <v-list-tile-content class="align-center">{{item.name}}</v-list-tile-content>
                 <v-list-tile-content class="align-center">{{item.value}}</v-list-tile-content>
               </v-list-tile>
@@ -41,8 +48,10 @@
         <v-tab>Biggest win</v-tab>
         <v-tab-item>
           <v-card>
-            <v-list dense dark rounded>
+            <v-list dense rounded dark>
               <v-list-tile v-for="(item, index) in biggestWins" :key="index">
+                <img v-if="index < 3" class="iconLeft" v-bind:src="require(`../assets/${index}.png`)"/>
+                <img v-if="index === 0" class="iconRight" v-bind:src="require(`../assets/crown.png`)"/>
                 <v-list-tile-content class="align-center">{{item.name}}</v-list-tile-content>
                 <v-list-tile-content class="align-center">{{item.value}}</v-list-tile-content>
               </v-list-tile>
@@ -81,10 +90,14 @@ export default Vue.extend({
       this.moneyRecords = [];
     },
     sortCacheArrays() {
-      this.wins = this.wins.sort((a, b) => a.value < b.value ? 1 : -1);
-      this.money = this.money.sort((a, b) => a.value < b.value ? 1 : -1);
-      this.biggestWins = this.biggestWins.sort((a, b) => a.value < b.value ? 1 : -1);
-      this.moneyRecords = this.moneyRecords.sort((a, b) => a.value < b.value ? 1 : -1);
+      this.wins = this.wins.sort((a, b) => (a.value < b.value ? 1 : -1));
+      this.money = this.money.sort((a, b) => (a.value < b.value ? 1 : -1));
+      this.biggestWins = this.biggestWins.sort((a, b) =>
+        a.value < b.value ? 1 : -1
+      );
+      this.moneyRecords = this.moneyRecords.sort((a, b) =>
+        a.value < b.value ? 1 : -1
+      );
     }
   },
   watch: {
@@ -122,6 +135,21 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
+<style >
+.theme--light.v-tabs__bar {
+  background-color: #297a0be3 !important;
+}
+.theme--dark.v-list {
+  background: #133800e8 !important;
+  color: #fff !important;
+}
+.iconLeft {
+  margin-left: 15%;
+  position: absolute;
+}
+.iconRight {
+  margin-left: 11%;
+  position: absolute;
+}
 </style>
 
