@@ -10,8 +10,7 @@ export const addUserToDB = async (user: User) => {
 }
 
 export const updateUserDataDB = async (user: User) => {
-    // Update whole user at one time ? or construct manually ? check if works !
-    const userDoc = await DB.collection('users').doc(user.username).update(user);
+    const userDoc = await DB.collection('users').doc(user.username).set(user, {merge: true});
     return userDoc;
 }
 
