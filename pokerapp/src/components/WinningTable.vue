@@ -54,7 +54,7 @@ export default Vue.extend({
   name: "winningtable",
   components: {},
   props: {
-    bet: Number
+    bet: String,
   },
   data: () => ({}),
   methods: {}

@@ -32,10 +32,21 @@ export class Player implements User {
         this.bet = 0;
     }
 
+    public updateStats() {
+        
+    }
+
 }
 
 export function createMockPlayer() {
-    const player: Player = new Player('Romppu', 100, { biggest_win: 50, wins: 30,
-                                    loses: 28, draws: 2, money_record: 120, total_games: 60 });
+    const player: Player = new Player('Romppu', 100, {
+        biggest_win: 50, wins: 30,
+        loses: 28, draws: 2, money_record: 120, total_games: 60,
+    });
+    return player;
+}
+
+export function createPlayerFromUser(user: User) {
+    const player: Player = new Player(user.username, user.money, user.statistics);
     return player;
 }
