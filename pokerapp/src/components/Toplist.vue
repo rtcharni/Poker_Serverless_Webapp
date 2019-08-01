@@ -5,14 +5,26 @@
         <v-btn color="red lighten-2" dark v-on="on">Show Toplist</v-btn>
       </template>
 
-      <v-tabs fixed-tabs>
+      <div v-if="loading" class="progressDiv">
+        <v-progress-linear class="progressBar" indeterminate color="cyan" height="10"></v-progress-linear>
+      </div>
+
+      <v-tabs v-if="!loading" fixed-tabs>
         <v-tab>Money record</v-tab>
         <v-tab-item>
           <v-card>
             <v-list dense rounded dark>
               <v-list-tile v-for="(item, index) in moneyRecords" :key="index">
-                <img v-if="index < 3" class="iconLeft" v-bind:src="require(`../assets/${index}.png`)"/>
-                <img v-if="index === 0" class="iconRight" v-bind:src="require(`../assets/crown.png`)"/>
+                <img
+                  v-if="index < 3"
+                  class="iconLeft"
+                  v-bind:src="require(`../assets/${index}.png`)"
+                />
+                <img
+                  v-if="index === 0"
+                  class="iconRight"
+                  v-bind:src="require(`../assets/crown.png`)"
+                />
                 <v-list-tile-content class="align-center">{{item.name}}</v-list-tile-content>
                 <v-list-tile-content class="align-center">{{item.value}}</v-list-tile-content>
               </v-list-tile>
@@ -24,8 +36,16 @@
           <v-card>
             <v-list dense rounded dark>
               <v-list-tile v-for="(item, index) in money" :key="index">
-                <img v-if="index < 3" class="iconLeft" v-bind:src="require(`../assets/${index}.png`)"/>
-                <img v-if="index === 0" class="iconRight" v-bind:src="require(`../assets/crown.png`)"/>
+                <img
+                  v-if="index < 3"
+                  class="iconLeft"
+                  v-bind:src="require(`../assets/${index}.png`)"
+                />
+                <img
+                  v-if="index === 0"
+                  class="iconRight"
+                  v-bind:src="require(`../assets/crown.png`)"
+                />
                 <v-list-tile-content class="align-center">{{item.name}}</v-list-tile-content>
                 <v-list-tile-content class="align-center">{{item.value}}</v-list-tile-content>
               </v-list-tile>
@@ -37,8 +57,16 @@
           <v-card>
             <v-list dense rounded dark>
               <v-list-tile v-for="(item, index) in wins" :key="index">
-                <img v-if="index < 3" class="iconLeft" v-bind:src="require(`../assets/${index}.png`)"/>
-                <img v-if="index === 0" class="iconRight" v-bind:src="require(`../assets/crown.png`)"/>
+                <img
+                  v-if="index < 3"
+                  class="iconLeft"
+                  v-bind:src="require(`../assets/${index}.png`)"
+                />
+                <img
+                  v-if="index === 0"
+                  class="iconRight"
+                  v-bind:src="require(`../assets/crown.png`)"
+                />
                 <v-list-tile-content class="align-center">{{item.name}}</v-list-tile-content>
                 <v-list-tile-content class="align-center">{{item.value}}</v-list-tile-content>
               </v-list-tile>
@@ -50,8 +78,16 @@
           <v-card>
             <v-list dense rounded dark>
               <v-list-tile v-for="(item, index) in biggestWins" :key="index">
-                <img v-if="index < 3" class="iconLeft" v-bind:src="require(`../assets/${index}.png`)"/>
-                <img v-if="index === 0" class="iconRight" v-bind:src="require(`../assets/crown.png`)"/>
+                <img
+                  v-if="index < 3"
+                  class="iconLeft"
+                  v-bind:src="require(`../assets/${index}.png`)"
+                />
+                <img
+                  v-if="index === 0"
+                  class="iconRight"
+                  v-bind:src="require(`../assets/crown.png`)"
+                />
                 <v-list-tile-content class="align-center">{{item.name}}</v-list-tile-content>
                 <v-list-tile-content class="align-center">{{item.value}}</v-list-tile-content>
               </v-list-tile>
@@ -60,7 +96,7 @@
         </v-tab-item>
         <!-- <v-btn class="" color="primary" @click="dialog = false">Close</v-btn> -->
       </v-tabs>
-      <v-spacer></v-spacer>
+      <!-- <v-spacer></v-spacer> -->
     </v-dialog>
   </div>
 </template>
@@ -76,6 +112,7 @@ export default Vue.extend({
   props: {},
   data: () => ({
     dialog: false,
+    loading: true,
     toplist: Object() as Toplist,
     wins: [],
     money: [],
@@ -106,6 +143,7 @@ export default Vue.extend({
         // Add && !Object.keys(this.toplist).length, then caches toplist and not fetches every time.
         const response: any = await getToplist();
         if (response.success) {
+          this.loading = false;
           this.clearCacheArrays();
           this.toplist = response.toplist;
           Object.entries(response.toplist).forEach(([username, stats]) => {
@@ -135,12 +173,12 @@ export default Vue.extend({
 });
 </script>
 
-<style >
+<style>
 .theme--light.v-tabs__bar {
   background-color: #297a0be3 !important;
 }
 .theme--dark.v-list {
-  background: #133800e8 !important;
+  background: #113200 !important;
   color: #fff !important;
 }
 .iconLeft {
@@ -152,4 +190,18 @@ export default Vue.extend({
   position: absolute;
 }
 </style>
+<style scoped>
+.spinner {
+  position: absolute;
+}
+.progressDiv {
+  display: flex;
+  justify-content: center;
+}
+.progressBar {
+  width: 80%;
+  border-radius: 20%;
+}
+</style>
+
 
