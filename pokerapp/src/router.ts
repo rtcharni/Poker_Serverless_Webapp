@@ -10,11 +10,11 @@ Vue.use(Router);
 
 const router = new Router({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: process.env.BASE_URL ? process.env.BASE_URL : '/',
   routes: [
     {
       path: '/',
-      redirect: '/game', // In prod /login
+      redirect: '/login', // In prod /login
     },
     {
       path: '/about',

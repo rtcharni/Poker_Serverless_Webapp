@@ -10,9 +10,9 @@ const cors = require("cors")({
 // const config = functions.config();
 
 export const getUser = functions.https.onRequest(async (request, response) => {
-  response.header("Access-Control-Allow-Origin", "*");
   return cors(request, response, async () => {
     try {
+      response.header("Access-Control-Allow-Origin", "*");
       const { username, password } = request.body;
       const foundUser: User = await getUserDataDB(username);
       if (foundUser) {
