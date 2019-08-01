@@ -32,10 +32,6 @@ export class Player implements User {
         this.bet = 0;
     }
 
-    public updateStats() {
-        
-    }
-
 }
 
 export function createMockPlayer() {
