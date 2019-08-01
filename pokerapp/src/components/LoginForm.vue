@@ -22,15 +22,15 @@
 
           <v-card-text>
             <v-form ref="loginform" v-model="valid" lazy-validation>
+              <v-text-field v-model="username" :rules="usernameRules" label="Username" required></v-text-field>
+
               <v-text-field
-                v-model="username"
-                :counter="10"
-                :rules="usernameRules"
-                label="Username"
+                v-model="password"
+                :rules="passwordRules"
+                label="Password"
+                type="password"
                 required
               ></v-text-field>
-
-              <v-text-field v-model="password" :rules="passwordRules" label="Password" required></v-text-field>
 
               <v-btn :disabled="!valid" color="success" @click="handleLoginClick">Login</v-btn>
 
@@ -69,15 +69,15 @@ export default Vue.extend({
     valid: false,
     username: "",
     usernameRules: [
-      (v: string) => !!v || "Username is required",
-      (v: string) =>
-        (v && v.length >= 3) || "Username must be at least 3 characters"
+      (v: string) => !!v || "Username is required"
+      // (v: string) =>
+      //   (v && v.length >= 3) || "Username must be at least 3 characters"
     ],
     password: "",
     passwordRules: [
-      (v: string) => !!v || "Password is required",
-      (v: string) =>
-        (v && v.length >= 5) || "Password must be at least 5 characters"
+      (v: string) => !!v || "Password is required"
+      // (v: string) =>
+      //   (v && v.length >= 5) || "Password must be at least 5 characters"
     ]
   }),
   methods: {

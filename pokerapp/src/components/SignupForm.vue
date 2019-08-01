@@ -25,7 +25,6 @@
             <v-form ref="loginform" v-model="valid" lazy-validation>
               <v-text-field
                 v-model="username"
-                :counter="10"
                 :rules="usernameRules"
                 label="Choose username"
                 required
@@ -35,6 +34,7 @@
                 v-model="password"
                 :rules="passwordRules"
                 label="Choose password"
+                type="password"
                 required
               ></v-text-field>
 
