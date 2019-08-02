@@ -2,6 +2,7 @@ import * as functions from "firebase-functions";
 // import * as jwt from 'jsonwebtoken';
 import { User } from "../models/user";
 import { updateUserDataDB } from "../utils/firestore";
+import { verifyToken } from "../utils/token";
 
 const cors = require("cors")({
   origin: true
@@ -12,6 +13,11 @@ export const updateUser = functions.https.onRequest(
     response.header('Access-Control-Allow-Origin', '*');
     return cors(request, response, async () => {
       try {
+
+        const success = await verifyToken(request.headers['authorization']);
+        if (!success) {
+          response.redirect(303, 'http://localhost:8080');
+        }
         // Verify token
         // const bearerHeader: string = request.headers['authorization'];
         // if (!bearerHeader || !bearerHeader.startsWith('Bearer ')) {
