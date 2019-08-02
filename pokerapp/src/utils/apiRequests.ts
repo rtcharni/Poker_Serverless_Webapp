@@ -28,20 +28,22 @@ export async function createUser(username: string, password: string) {
     return await response.json();
 }
 
-export async function updateUser(player: Player) {
+export async function updateUser(player: Player, auth: string) {
     const updateObj = {username: player.username, money: player.money, ...player.statistics };
     const response = await fetch('https://us-central1-poker-e0a17.cloudfunctions.net/updateUser', {
         method: 'POST',
         mode: 'cors',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': auth,
         },
-        // redirect: 'follow',
+        redirect: 'follow',
         body: JSON.stringify(updateObj),
     });
-    const auth = response.headers.get('Authorization');
+    const newAuth = response.headers.get('Authorization');
     const body = await response.json();
-    return {auth, ...body};
+    console.log(response.redirected)
+    return {auth: newAuth, ...body};
 }
 
 export async function getToplist() {
