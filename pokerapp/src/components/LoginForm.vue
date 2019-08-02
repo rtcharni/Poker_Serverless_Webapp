@@ -93,7 +93,7 @@ export default Vue.extend({
           setTimeout(() => {
             this.$router.push({
               name: "game",
-              params: { user: response.user, loggedIn: "true" }
+              params: { user: response.user, loggedIn: "true", auth: response.auth }
             });
           }, 3000);
         } else {
