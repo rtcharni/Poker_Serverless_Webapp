@@ -1,44 +1,51 @@
 import { Player } from '@/gameplay/Player';
 
-export function getUser(username: string, password: string) {
-    return fetch('https://us-central1-poker-e0a17.cloudfunctions.net/getUser', {
+export async function getUser(username: string, password: string) {
+    const response = await fetch('https://us-central1-poker-e0a17.cloudfunctions.net/getUser', {
         method: 'POST',
         mode: 'cors',
         headers: {
             'Content-Type': 'application/json',
         },
         // redirect: 'follow',
-        body: JSON.stringify({username, password})
-    }).then((response) => response.json());
+        body: JSON.stringify({username, password}),
+    });
+    const auth = response.headers.get('Authorization');
+    const body = await response.json();
+    return {auth, ...body};
 }
 
 export async function createUser(username: string, password: string) {
-    return fetch('https://us-central1-poker-e0a17.cloudfunctions.net/createUser', {
+    const response = await fetch('https://us-central1-poker-e0a17.cloudfunctions.net/createUser', {
         method: 'POST',
         mode: 'cors',
         headers: {
             'Content-Type': 'application/json',
         },
         // redirect: 'follow',
-        body: JSON.stringify({username, password})
-    }).then((response) => response.json());
+        body: JSON.stringify({username, password}),
+    });
+    return await response.json();
 }
 
 export async function updateUser(player: Player) {
     const updateObj = {username: player.username, money: player.money, ...player.statistics };
-    return fetch('https://us-central1-poker-e0a17.cloudfunctions.net/updateUser', {
+    const response = await fetch('https://us-central1-poker-e0a17.cloudfunctions.net/updateUser', {
         method: 'POST',
         mode: 'cors',
         headers: {
             'Content-Type': 'application/json',
         },
         // redirect: 'follow',
-        body: JSON.stringify(updateObj)
-    }).then((response) => response.json());
+        body: JSON.stringify(updateObj),
+    });
+    const auth = response.headers.get('Authorization');
+    const body = await response.json();
+    return {auth, ...body};
 }
 
 export async function getToplist() {
-    return fetch('https://us-central1-poker-e0a17.cloudfunctions.net/getToplist', {
+    const response = await fetch('https://us-central1-poker-e0a17.cloudfunctions.net/getToplist', {
         method: 'GET',
         mode: 'cors',
         // headers: {
@@ -46,5 +53,6 @@ export async function getToplist() {
         // },
         // redirect: 'follow',
         // body: JSON.stringify(updateObj)
-    }).then((response) => response.json());
+    });
+    return await response.json();
 }
