@@ -98,6 +98,7 @@
           solo
         ></v-text-field>
         <v-btn
+          :disabled="dealBtnDisabled"
           @click="isGameOn ? dealChangeCards() : dealNewCards()"
           color="indigo"
           class="dealBtn"
@@ -148,6 +149,7 @@ export default Vue.extend({
   name: "game",
   components: { Snackbar, Statistics, WinningTable, Toplist },
   data: () => ({
+    auth: "",
     snackbarText: "",
     snackbarColor: "",
     snackbar: false,
@@ -158,6 +160,7 @@ export default Vue.extend({
     },
     loading: true,
     isGameOn: false,
+    dealBtnDisabled: false,
     sound: true,
     deck: new Deck(),
     cards: [] as Card[],
@@ -180,6 +183,7 @@ export default Vue.extend({
       }
     },
     async dealChangeCards() {
+      this.dealBtnDisabled = true;
       cardDealSound.play();
 
       this.cards = this.cards.map((card, i) => {
@@ -220,8 +224,11 @@ export default Vue.extend({
       }
 
       console.log(this.player);
-      await updateUser(this.player);
+      const response = await updateUser(this.player, this.auth, this.$router);
+      // Show some message or something.
+      this.auth = response.auth;
       this.deck = new Deck();
+      this.dealBtnDisabled = false;
       this.isGameOn = false;
     },
     dealNewCards() {
@@ -278,6 +285,7 @@ export default Vue.extend({
     if (this.$route.params.user) {
       this.player = createPlayerFromUser(this.$route.params.user);
     }
+    this.auth = this.$route.params.auth;
     console.log(this.player);
     this.loading = false;
   },
@@ -291,7 +299,7 @@ export default Vue.extend({
 
 <style scoped>
 .dealBtn {
-  width: 10%;
+  width: 13%;
   /* margin-right: calc(100% - 3em); */
   margin-right: 55%;
 }
