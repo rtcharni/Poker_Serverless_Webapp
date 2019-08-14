@@ -3,6 +3,8 @@ import * as functions from "firebase-functions";
 import { getUserDataDB } from "../utils/firestore";
 import { User } from "../models/user";
 import { checkIsPasswordValid } from "../utils/bcrypt";
+import { generateToken } from "../utils/token";
+import { setTokenAndAuthorizationHeaders } from "../utils/headers";
 
 const cors = require("cors")({
   origin: true
@@ -12,26 +14,18 @@ const cors = require("cors")({
 export const getUser = functions.https.onRequest(async (request, response) => {
   return cors(request, response, async () => {
     try {
-      response.header("Access-Control-Allow-Origin", "*");
       const { username, password } = request.body;
       const foundUser: User = await getUserDataDB(username);
       if (foundUser) {
         if (await checkIsPasswordValid(password, foundUser.password)) {
-          // const token: string = jwt.sign(
-          //     { username: foundUser.username },
-          //     config.poker.apikey,
-          //     {
-          //         issuer: config.poker.appid,
-          //         expiresIn: config.poker.tokentimelimit,
-          //         subject: config.poker.tokensubject
-          //     }
-          // );
-          // response.status(200).set('Authorization', 'Bearer ' + token).send({ user: foundUser, success: true });
-          response.status(200).send({
-            user: foundUser,
-            msg: `Welcome back ${foundUser.username}!`,
-            success: true
-          });
+          const token: string = generateToken(foundUser);
+          setTokenAndAuthorizationHeaders(response, token);
+          response.status(200)
+            .send({
+              user: foundUser,
+              msg: `Welcome back ${foundUser.username}!`,
+              success: true
+            });
         }
       }
       response

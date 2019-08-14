@@ -2,6 +2,8 @@ import * as functions from "firebase-functions";
 // import * as jwt from 'jsonwebtoken';
 import { User } from "../models/user";
 import { updateUserDataDB } from "../utils/firestore";
+import { verifyToken, generateToken } from "../utils/token";
+import { setTokenAndAuthorizationHeaders } from "../utils/headers";
 
 const cors = require("cors")({
   origin: true
@@ -9,23 +11,17 @@ const cors = require("cors")({
 
 export const updateUser = functions.https.onRequest(
   async (request, response) => {
-    response.header('Access-Control-Allow-Origin', '*');
     return cors(request, response, async () => {
       try {
-        // Verify token
-        // const bearerHeader: string = request.headers['authorization'];
-        // if (!bearerHeader || !bearerHeader.startsWith('Bearer ')) {
-        //     // No token in headers REDIRECT TO LOGIN AGAIN!?
-        //     response.status(403).send({ msg: `No auth`, success: false })
-        // }
-        // const token: string = bearerHeader.split(' ')[1];
-        // try {
-        //     jwt.verify(token, functions.config().poker.apikey);
-        // } catch (tokenError) {
-        //     // Token expired or wrong token in headers REDIRECT TO LOGIN AGAIN!?
-        //     response.status(403).send({ msg: `No auth`, success: false })
-        // }
+        const success = await verifyToken(request.headers['authorization']);
+        if (!success) {
+          response.redirect('/');
+        }
+      
         const user: User = constructUser(request.body);
+        const newToken = generateToken(user);
+
+        setTokenAndAuthorizationHeaders(response, newToken);
         await updateUserDataDB(user);
         response
           .status(200)

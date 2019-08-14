@@ -93,7 +93,7 @@ export default Vue.extend({
           setTimeout(() => {
             this.$router.push({
               name: "game",
-              params: { user: response.user, loggedIn: "true" }
+              params: { user: response.user, loggedIn: "true", auth: response.auth }
             });
           }, 3000);
         } else {
@@ -113,6 +113,12 @@ export default Vue.extend({
       setTimeout(() => {
         this.snackbar = false;
       }, duration);
+    }
+  },
+  mounted() {
+    console.log(this.$route.params);
+    if (this.$route.params.msg) {
+      this.showAndHideSnackbar(this.$route.params.msg, "info", 3000);
     }
   }
 });
