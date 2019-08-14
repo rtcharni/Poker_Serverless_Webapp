@@ -7,7 +7,6 @@ const cors = require("cors")({
 
 export const getToplist = functions.https.onRequest(
   async (request, response) => {
-    response.header("Access-Control-Allow-Origin", "*");
     return cors(request, response, async () => {
       try {
         const toplist = await getStatisticsDataDB();
