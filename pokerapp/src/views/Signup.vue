@@ -5,7 +5,7 @@
 
     <v-img
       v-bind:src="require('../assets/playing-cards_free_background_image_2210x1473.jpg')"
-      max-height="700"
+      :max-height="height"
     >
     <v-layout
       align-center
@@ -32,11 +32,14 @@ export default Vue.extend({
     Navbar
   },
   data: () => ({
-
+    height: "700",
   }),
-  methods: {
-
-  },
+  methods: {},
+  mounted() {
+    if (this.$parent.$el.clientHeight) {
+      this.height = this.$parent.$el.clientHeight * 0.9;
+    }
+  }
 });
 </script>
 
