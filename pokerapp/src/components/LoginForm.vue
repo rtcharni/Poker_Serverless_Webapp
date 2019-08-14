@@ -114,6 +114,12 @@ export default Vue.extend({
         this.snackbar = false;
       }, duration);
     }
+  },
+  mounted() {
+    console.log(this.$route.params);
+    if (this.$route.params.msg) {
+      this.showAndHideSnackbar(this.$route.params.msg, "info", 3000);
+    }
   }
 });
 </script>
