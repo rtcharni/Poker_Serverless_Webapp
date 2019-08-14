@@ -1,4 +1,5 @@
 import { Player } from '@/gameplay/Player';
+import VueRouter from 'vue-router';
 
 export async function getUser(username: string, password: string) {
     const response = await fetch('https://us-central1-poker-e0a17.cloudfunctions.net/getUser', {
@@ -28,7 +29,7 @@ export async function createUser(username: string, password: string) {
     return await response.json();
 }
 
-export async function updateUser(player: Player, auth: string) {
+export async function updateUser(player: Player, auth: string, router: VueRouter) {
     const updateObj = {username: player.username, money: player.money, ...player.statistics };
     const response = await fetch('https://us-central1-poker-e0a17.cloudfunctions.net/updateUser', {
         method: 'POST',
@@ -37,12 +38,17 @@ export async function updateUser(player: Player, auth: string) {
             'Content-Type': 'application/json',
             'Authorization': auth,
         },
-        redirect: 'follow',
+        redirect: 'manual',
         body: JSON.stringify(updateObj),
     });
+    if (response.type === 'opaqueredirect') {
+        router.replace({name: 'login',
+            params: { user: null, loggedIn: 'false', msg: 'Please login again!' },
+        });
+        return;
+    }
     const newAuth = response.headers.get('Authorization');
     const body = await response.json();
-    console.log(response.redirected)
     return {auth: newAuth, ...body};
 }
 
