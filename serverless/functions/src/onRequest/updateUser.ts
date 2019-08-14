@@ -43,9 +43,6 @@ function constructUser(requestBody: any) {
   if (requestBody.username) {
     user.username = requestBody.username;
   }
-  // if (requestBody.password) {
-  //     user.password = requestBody.password;
-  // }
   if (requestBody.money) {
     user.money = requestBody.money;
   }

@@ -14,10 +14,13 @@ export const createUser = functions.https.onRequest(
       try {
         const { username, password } = request.body;
         const foundUser = await getUserDataDB(username);
-        if (foundUser)
+        if (foundUser) {
           response
             .status(409)
             .send({ msg: `Username already exists..`, success: false });
+            return Promise.resolve();
+        }
+        
         const hashed = await hashPassword(password);
         const user: User = {
           money: 50,
@@ -37,12 +40,10 @@ export const createUser = functions.https.onRequest(
           .status(200)
           .send({ msg: `User ${user.username} created!`, success: true });
       } catch (error) {
-        response
-          .status(500)
-          .send({
-            msg: `Error happened while creating new user..`,
-            success: false
-          });
+        response.status(500).send({
+          msg: `Error happened while creating new user..`,
+          success: false
+        });
       }
     });
   }

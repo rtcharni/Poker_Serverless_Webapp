@@ -20,12 +20,12 @@ export const getUser = functions.https.onRequest(async (request, response) => {
         if (await checkIsPasswordValid(password, foundUser.password)) {
           const token: string = generateToken(foundUser);
           setTokenAndAuthorizationHeaders(response, token);
-          response.status(200)
-            .send({
-              user: foundUser,
-              msg: `Welcome back ${foundUser.username}!`,
-              success: true
-            });
+          response.status(200).send({
+            user: foundUser,
+            msg: `Welcome back ${foundUser.username}!`,
+            success: true
+          });
+          return Promise.resolve();
         }
       }
       response
