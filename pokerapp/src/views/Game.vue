@@ -275,7 +275,7 @@ export default Vue.extend({
     logout() {
       this.$router.replace({
         name: "login",
-        params: { loggedIn: "false" }
+        params: { loggedIn: "false", msg: 'Thank you for playing!' }
       });
     }
   },
