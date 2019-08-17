@@ -11,7 +11,7 @@ export function verifyToken(authHeader: string) {
   }
   const token: string = bearerHeader.split(" ")[1];
   try {
-    jwt.verify(token, functions.config().poker.apikey);
+    jwt.verify(token, config.poker.apikey);
   } catch (tokenError) {
     console.error("Token invalid");
     console.error(tokenError);

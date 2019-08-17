@@ -4,6 +4,7 @@ import { User } from "../models/user";
 import { updateUserDataDB } from "../utils/firestore";
 import { verifyToken, generateToken } from "../utils/token";
 import { setTokenAndAuthorizationHeaders } from "../utils/headers";
+import { verifyId } from "../utils/bcrypt";
 
 const cors = require("cors")({
   origin: true
@@ -13,12 +14,16 @@ export const updateUser = functions.https.onRequest(
   async (request, response) => {
     return cors(request, response, async () => {
       try {
-        const success = await verifyToken(request.headers['authorization']);
-        if (!success) {
+        const user: User = constructUser(request.body);
+
+        const tokenSuccess = await verifyToken(request.headers['authorization']);
+        const idSuccess = await verifyId(user.money, user.statistics.wins, user.statistics.loses, request.body.id);
+
+        if (!tokenSuccess || !idSuccess) {
           response.redirect('/');
+          return Promise.resolve();
         }
       
-        const user: User = constructUser(request.body);
         const newToken = generateToken(user);
 
         setTokenAndAuthorizationHeaders(response, newToken);
