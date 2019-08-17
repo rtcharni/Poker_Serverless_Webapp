@@ -1,4 +1,4 @@
-import bcrypt = require("bcrypt");
+import bcrypt = require('bcryptjs');
 import * as functions from "firebase-functions";
 const config = functions.config();
 

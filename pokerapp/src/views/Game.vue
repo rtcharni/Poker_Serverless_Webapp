@@ -293,6 +293,7 @@ export default Vue.extend({
     this.activateAnimationEndListeners();
     console.log(this);
     // console.log(this.$route.params)
+    console.log(process.env.VUE_APP_APIKEY);
   }
 });
 </script>

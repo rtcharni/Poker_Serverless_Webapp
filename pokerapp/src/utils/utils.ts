@@ -29,7 +29,7 @@ export async function generateId(
     newMoney.toString() +
       newWins.toString() +
       newLoses.toString() +
-      process.env.apikey,
+      process.env.VUE_APP_APIKEY,
     10,
   );
   return id;

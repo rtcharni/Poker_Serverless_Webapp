@@ -1,5 +1,4 @@
 import * as functions from "firebase-functions";
-// import * as jwt from 'jsonwebtoken';
 import { User } from "../models/user";
 import { updateUserDataDB } from "../utils/firestore";
 import { verifyToken, generateToken } from "../utils/token";
@@ -48,40 +47,40 @@ function constructUser(requestBody: any) {
   if (requestBody.username) {
     user.username = requestBody.username;
   }
-  if (requestBody.money) {
+  if (requestBody.money || requestBody.money === 0) {
     user.money = requestBody.money;
   }
-  if (requestBody.biggest_win) {
+  if (requestBody.biggest_win || requestBody.biggest_win === 0) {
     if (!user.statistics) {
       user.statistics = {};
     }
     user.statistics.biggest_win = requestBody.biggest_win;
   }
-  if (requestBody.draws) {
+  if (requestBody.draws || requestBody.draws === 0) {
     if (!user.statistics) {
       user.statistics = {};
     }
     user.statistics.draws = requestBody.draws;
   }
-  if (requestBody.loses) {
+  if (requestBody.loses || requestBody.loses === 0) {
     if (!user.statistics) {
       user.statistics = {};
     }
     user.statistics.loses = requestBody.loses;
   }
-  if (requestBody.money_record) {
+  if (requestBody.money_record || requestBody.money_record === 0) {
     if (!user.statistics) {
       user.statistics = {};
     }
     user.statistics.money_record = requestBody.money_record;
   }
-  if (requestBody.total_games) {
+  if (requestBody.total_games || requestBody.total_games === 0) {
     if (!user.statistics) {
       user.statistics = {};
     }
     user.statistics.total_games = requestBody.total_games;
   }
-  if (requestBody.wins) {
+  if (requestBody.wins || requestBody.wins === 0) {
     if (!user.statistics) {
       user.statistics = {};
     }
