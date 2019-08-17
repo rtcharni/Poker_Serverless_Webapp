@@ -29,7 +29,7 @@ export async function createUser(username: string, password: string) {
 }
 
 export async function updateUser(player: Player, auth: string, router: VueRouter) {
-    const id = await generateId(player.money, player.statistics.wins, player.statistics.loses);
+    const id = await generateId(player);
     const updateObj = {username: player.username, money: player.money, ...player.statistics, id };
     const response = await fetch('https://us-central1-poker-e0a17.cloudfunctions.net/updateUser', {
         method: 'POST',

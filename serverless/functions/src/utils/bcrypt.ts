@@ -1,5 +1,6 @@
 import bcrypt = require('bcryptjs');
 import * as functions from "firebase-functions";
+import { User } from '../models/user';
 const config = functions.config();
 
 const saltRounds = 10;
@@ -18,16 +19,15 @@ export const checkIsPasswordValid = async (
 };
 
 export const verifyId = async (
-  newMoney: number,
-  newWins: number,
-  newLoses: number,
+  user: User,
   givenId: string
 ) => {
   const realId =
-    newMoney.toString() +
-    newWins.toString() +
-    newLoses.toString() +
-    config.poker.apikey;
+    `${user.username}${user.money}${user.statistics.wins}${
+      user.statistics.loses
+    }${user.statistics.draws}${user.statistics.biggest_win}${
+      user.statistics.money_record
+    }${user.statistics.total_games}${config.poker.apikey}`
 
   const same: boolean = await bcrypt.compare(realId, givenId);
   return same;

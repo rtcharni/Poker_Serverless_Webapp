@@ -16,7 +16,7 @@ export const updateUser = functions.https.onRequest(
         const user: User = constructUser(request.body);
 
         const tokenSuccess = await verifyToken(request.headers['authorization']);
-        const idSuccess = await verifyId(user.money, user.statistics.wins, user.statistics.loses, request.body.id);
+        const idSuccess = await verifyId(user, request.body.id);
 
         if (!tokenSuccess || !idSuccess) {
           response.redirect('/');
