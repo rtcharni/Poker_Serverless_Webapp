@@ -235,6 +235,10 @@ export default Vue.extend({
       if (this.bet > this.player.money) {
         this.showAndHideSnackbar("No enough money...", "info", 3000);
         return;
+      } else if (this.bet < 0) {
+        this.showAndHideSnackbar("We don't lend money!", "error", 3000);
+        this.bet = 0;
+        return;
       }
       cardDealSound.play();
       this.isGameOn = true;
