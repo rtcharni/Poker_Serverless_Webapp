@@ -43,7 +43,7 @@ export async function updateUser(player: Player, auth: string, router: VueRouter
     });
     if (response.type === 'opaqueredirect') {
         router.replace({name: 'login',
-            params: { user: null, loggedIn: 'false', msg: 'Please login again!' },
+            params: { user: null, loggedIn: 'false', msg: 'Too long inactive. Please login again.' },
         });
         return {auth: null};
     }
