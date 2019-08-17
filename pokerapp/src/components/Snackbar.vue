@@ -7,7 +7,7 @@
       :top="true"
       :absolute="true"
       :auto-height="true"
-    class=""
+      class="snackbar"
     >
       {{ text }}
       <!-- <v-btn color="pink" flat @click="snackbar = false">Close</v-btn> -->
@@ -17,7 +17,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-// import Vuetify from 'vuetify'
 
 export default Vue.extend({
   name: "snackbar",
@@ -29,16 +28,7 @@ export default Vue.extend({
     color: String
   },
   data: () => ({
-    // snackbar: false,
-    // y: "",
-    // x: "",
-    // timeout: 4000,
-    methods: {
-      handleLoginClick() {
-        console.log("VALIDATE");
-        //   this.snackbar = true
-      }
-    }
+    methods: {}
   })
 });
 </script>
