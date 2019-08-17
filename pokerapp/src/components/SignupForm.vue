@@ -22,7 +22,7 @@
           </v-card-title>
           
           <v-card-text>
-            <v-form ref="loginform" v-model="valid" lazy-validation>
+            <v-form ref="signupform" v-model="valid" lazy-validation>
               <v-text-field
                 v-model="username"
                 :rules="usernameRules"
@@ -34,6 +34,14 @@
                 v-model="password"
                 :rules="passwordRules"
                 label="Choose password"
+                type="password"
+                required
+              ></v-text-field>
+
+              <v-text-field
+                v-model="passwordAgain"
+                :rules="passwordAgainRules"
+                label="Verify password"
                 type="password"
                 required
               ></v-text-field>
@@ -84,11 +92,22 @@ export default Vue.extend({
       (v: string) => !!v || "Password is required",
       (v: string) =>
         (v && v.length >= 5) || "Password must be at least 5 characters"
-    ]
+    ],
+    passwordAgain: "",
+    passwordAgainRules: [
+      (v: string) => !!v || "Password verifying is required",
+      (v: string) =>
+        (v && v.length >= 5) || "Password must be at least 5 characters",
+      // (v: string) => (v && v === this.password) || "Passwords not matching"
+    ],
   }),
   methods: {
     async handleSignupClick() {
-      if ((<any>this.$refs.loginform).validate()) {
+      if (this.password !== this.passwordAgain) {
+        this.showAndHideSnackbar("Passwords not matching, please try again.", "error", 3000);
+        return;
+      }
+      if ((<any>this.$refs.signupform).validate()) {
         console.log(this);
         this.loading = true;
         const response = await createUser(this.username, this.password);
@@ -107,7 +126,7 @@ export default Vue.extend({
       }
     },
     handleResetClick() {
-      (<any>this.$refs.loginform).reset();
+      (<any>this.$refs.signupform).reset();
     },
     showAndHideSnackbar(message: string, color: string, duration: number) {
       this.snackbarText = message;
