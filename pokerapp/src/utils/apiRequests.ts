@@ -1,5 +1,6 @@
 import { Player } from '@/gameplay/Player';
 import VueRouter from 'vue-router';
+import { generateId } from './utils';
 
 export async function getUser(username: string, password: string) {
     const response = await fetch('https://us-central1-poker-e0a17.cloudfunctions.net/getUser', {
@@ -28,7 +29,8 @@ export async function createUser(username: string, password: string) {
 }
 
 export async function updateUser(player: Player, auth: string, router: VueRouter) {
-    const updateObj = {username: player.username, money: player.money, ...player.statistics };
+    const id = await generateId(player.money, player.statistics.wins, player.statistics.loses);
+    const updateObj = {username: player.username, money: player.money, ...player.statistics, id };
     const response = await fetch('https://us-central1-poker-e0a17.cloudfunctions.net/updateUser', {
         method: 'POST',
         mode: 'cors',
