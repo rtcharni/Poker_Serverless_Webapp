@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const cardDealSound = new Audio(
   require('../assets/sounds/Card-flip-sound-effect.mp3'),
