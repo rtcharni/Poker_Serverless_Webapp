@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar >
+    <v-toolbar color="#d1cdcd">
       <v-toolbar-title class="headline text-uppercase">
         <span>Online Poker</span>
         <span class="font-weight-light"> - can you be the best player?</span>
