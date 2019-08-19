@@ -45,7 +45,6 @@ export function createMockPlayer() {
 export function createPlayerFromUser(user: User) {
     const player: Player = new Player(user.username, user.money, user.statistics);
     for (const k of Object.keys(player.statistics)) {
-        console.log(k);
     }
     return player;
 }

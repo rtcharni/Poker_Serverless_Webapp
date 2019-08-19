@@ -9,31 +9,31 @@
           class="card mr-5 animated faster card1"
           v-bind:src="cards[0].img"
           height="auto"
-          width="auto"
+          width="110"
         ></v-img>
         <v-img
           class="card mr-5 animated faster card2"
           v-bind:src="cards[1].img"
           height="auto"
-          width="auto"
+          width="110"
         ></v-img>
         <v-img
           class="card mr-5 animated faster card3"
           v-bind:src="cards[2].img"
           height="auto"
-          width="auto"
+          width="110"
         ></v-img>
         <v-img
           class="card mr-5 animated faster card4"
           v-bind:src="cards[3].img"
           height="auto"
-          width="auto"
+          width="110"
         ></v-img>
         <v-img
           class="card animated faster card5"
           v-bind:src="cards[4].img"
           height="auto"
-          width="auto"
+          width="110"
         ></v-img>
       </div>
       <div class="row" style="display: flex; flex-direction: row; justify-content: space-around;">
@@ -172,7 +172,7 @@ export default Vue.extend({
       if (!this.isGameOn) {
         return;
       }
-      // console.log(event)
+
       const number: number = event.target.value
         ? parseInt(event.target.value)
         : parseInt(event.target.parentElement.value);
@@ -223,7 +223,6 @@ export default Vue.extend({
         this.player.statistics.money_record = this.player.money;
       }
 
-      console.log(this.player);
       const response = await updateUser(this.player, this.auth, this.$router);
       // Show some message or something.
       this.auth = response.auth;
@@ -290,14 +289,10 @@ export default Vue.extend({
       this.player = createPlayerFromUser(this.$route.params.user);
     }
     this.auth = this.$route.params.auth;
-    console.log(this.player);
     this.loading = false;
   },
   mounted() {
     this.activateAnimationEndListeners();
-    console.log(this);
-    // console.log(this.$route.params)
-    console.log(process.env.VUE_APP_APIKEY);
   }
 });
 </script>
@@ -309,7 +304,7 @@ export default Vue.extend({
   margin-right: 55%;
 }
 .lockedBtn {
-  background-color: rgba(161, 192, 202, 0.7) !important;
+  background-color: rgba(148, 195, 210, 1) !important;
 }
 .soundBtn {
   margin-bottom: 27px;

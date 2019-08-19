@@ -108,10 +108,8 @@ export default Vue.extend({
         return;
       }
       if ((<any>this.$refs.signupform).validate()) {
-        console.log(this);
         this.loading = true;
         const response = await createUser(this.username, this.password);
-        console.log(response);
         if (response.success) {
           this.showAndHideSnackbar(response.msg, "success", 3000);
           setTimeout(() => {

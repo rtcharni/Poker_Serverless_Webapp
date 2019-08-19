@@ -39,14 +39,11 @@
           </v-card-text>
 
           <Snackbar
-            id="snackbar"
             v-bind:snackbar="snackbar"
             v-bind:timeout="0"
             v-bind:text="snackbarText"
             v-bind:color="snackbarColor"
           />
-          <!-- <v-card-actions> -->
-          <!-- </v-card-actions> -->
         </v-card>
       </v-layout>
     </v-container>
@@ -83,10 +80,8 @@ export default Vue.extend({
   methods: {
     async handleLoginClick() {
       if ((<any>this.$refs.loginform).validate()) {
-        console.log(this);
         this.loading = true;
         const response = await getUser(this.username, this.password);
-        console.log(response);
         if (response.success) {
           this.loading = false;
           this.showAndHideSnackbar(response.msg, "info", 2000);
@@ -116,7 +111,6 @@ export default Vue.extend({
     }
   },
   mounted() {
-    console.log(this.$route.params);
     if (this.$route.params.msg) {
       this.showAndHideSnackbar(this.$route.params.msg, "info", 3000);
     }
