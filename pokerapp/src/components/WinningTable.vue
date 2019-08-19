@@ -68,5 +68,10 @@ export default Vue.extend({
 .v-card {
   background: #3aca7582;
 }
+div.v-list__tile__content.align-end {
+  -webkit-box-align: end !important;
+  -ms-flex-align: end !important;
+  align-items: flex-end !important;
+}
 </style>
 
