@@ -173,6 +173,11 @@ export default Vue.extend({
 </script>
 
 <style>
+div.v-list__tile__content.align-center {
+  -webkit-box-align: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+}
 .theme--light.v-tabs__bar {
   background-color: #297a0be3 !important;
 }
