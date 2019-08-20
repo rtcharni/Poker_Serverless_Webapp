@@ -100,9 +100,10 @@
         <v-btn
           :disabled="dealBtnDisabled"
           @click="isGameOn ? dealChangeCards() : dealNewCards()"
-          color="indigo"
+          outlined 
+          rounded
+          color="blue"
           class="dealBtn"
-          outlined
         >{{isGameOn ? 'Change cards' : 'Deal'}}</v-btn>
         <Toplist />
         <v-icon class="soundBtn" large @click="changeSound">{{sound ? 'volume_off' : 'volume_up'}}</v-icon>

@@ -173,6 +173,10 @@ export default Vue.extend({
 </script>
 
 <style>
+button.v-btn.theme--dark.red.lighten-2 {
+  background-color: #006761 !important;
+  border-color: #006761 !important;
+}
 div.v-list__tile__content.align-center {
   -webkit-box-align: center !important;
   -ms-flex-align: center !important;
