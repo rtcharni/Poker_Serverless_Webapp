@@ -106,7 +106,7 @@
           class="dealBtn"
         >{{isGameOn ? 'Change cards' : 'Deal'}}</v-btn>
         <Toplist />
-        <v-icon class="soundBtn" large @click="changeSound">{{sound ? 'volume_off' : 'volume_up'}}</v-icon>
+        <v-icon class="soundBtn" large @click="changeSound">{{sound ? 'volume_up' : 'volume_off'}}</v-icon>
       </div>
 
       <v-layout class="stats-wins">
